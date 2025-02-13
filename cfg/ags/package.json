@@ -1,0 +1,9 @@
+{
+  "name": "astal-shell",
+  "scripts": {
+    "start": "ags run"
+  },
+  "dependencies": {
+    "astal": "/usr/share/astal/gjs"
+  }
+}

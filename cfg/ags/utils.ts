@@ -1,0 +1,37 @@
+import { Widget } from "astal/gtk3";
+
+export const getClassList = (wdgt: any): string[] => {
+  return wdgt.get_class_name().split(" ");
+};
+
+export const hasClassName = (wdgt: any, className: string): boolean => {
+  return getClassList(wdgt).includes(className);
+};
+
+export const toggleClass = (wdgt: any, className: string) => {
+  let classlist = getClassList(wdgt);
+
+  if (classlist.includes(className)) {
+    classlist.splice(classlist.indexOf(className), 1);
+  } else {
+    classlist.push(className);
+  }
+
+  wdgt.set_class_name(classlist.join(" "));
+};
+
+export const addClassIf = (
+  wdgt: any,
+  assertion: boolean,
+  classname: string,
+): void => {
+  const classlist = getClassList(wdgt);
+
+  if (assertion && !classlist.includes(classname)) {
+    classlist.push(classname);
+  } else if (!assertion && classlist.includes(classname)) {
+    classlist.splice(classlist.indexOf(classname), 1);
+  }
+
+  wdgt.set_class_name(classlist.join(" "));
+};

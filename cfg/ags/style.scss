@@ -1,0 +1,42 @@
+$background: #141414;
+$foreground: #b6beca;
+
+// workspaces
+$ws-accent: #abb4c2;
+$ws-occupied: #545454;
+$ws-hovered: $ws-accent;
+
+* {
+    all: unset;
+}
+
+window.Bar {
+    background: transparent;
+    color: $foreground;
+    font-weight: 500;
+    font-family: Inter;
+
+    .workspaces {
+        .workspace-item {
+            padding: 1px 2rem;
+            background: transparent;
+            transition: all ease 0.2s;
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+
+            &.occupied {
+                background: $ws-occupied;
+                padding: 1px 4rem;
+            }
+
+            &.active {
+                background: $ws-accent;
+                padding: 1px 8rem;
+            }
+
+            &:hover {
+                background: $ws-hovered;
+            }
+        }
+    }
+}
