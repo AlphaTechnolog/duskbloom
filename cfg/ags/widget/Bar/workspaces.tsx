@@ -1,14 +1,17 @@
-import { App, Astal, Gdk, Gtk, hook, Widget } from "astal/gtk3";
-import { addClassIf, toggleClass } from "../utils";
 import { bind } from "astal";
-
+import { Gtk, Widget } from "astal/gtk3";
 import Hyprland from "gi://AstalHyprland";
+import { addClassIf } from "../../utils";
 
-type WorkspaceItemProps = {
+export type WorkspaceItemProps = {
   workspaceId: number;
 };
 
-function WorkspaceItem({ workspaceId }: WorkspaceItemProps) {
+export type WorkspacesProps = {
+  maxWorkspaces: number;
+};
+
+export function WorkspaceItem({ workspaceId }: WorkspaceItemProps) {
   const hyprland = Hyprland.get_default();
   const focusedWorkspace = bind(hyprland, "focusedWorkspace");
   const clients = bind(hyprland, "clients");
@@ -47,23 +50,14 @@ function WorkspaceItem({ workspaceId }: WorkspaceItemProps) {
   );
 }
 
-export default function Bar(gdkmonitor: Gdk.Monitor) {
-  const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
-  const MAX_WORKSPACES = 6;
-
+export function Workspaces(
+  { maxWorkspaces }: WorkspacesProps = { maxWorkspaces: 6 },
+) {
   return (
-    <window
-      className="Bar"
-      gdkmonitor={gdkmonitor}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      anchor={TOP | LEFT | RIGHT}
-      application={App}
-    >
-      <box homogeneous spacing={12} className="workspaces">
-        {Array.from({ length: MAX_WORKSPACES }).map((_, i) => (
-          <WorkspaceItem workspaceId={i} />
-        ))}
-      </box>
-    </window>
+    <>
+      {Array.from({ length: maxWorkspaces }).map((_, i) => (
+        <WorkspaceItem workspaceId={i} />
+      ))}
+    </>
   );
 }
