@@ -36,7 +36,6 @@ export function Dock(monitor: Gdk.Monitor) {
   const list = Variable<AstalApps.Application[]>([]);
   const hyprland = AstalHyprland.get_default();
 
-  // TODO: Group applications by their name (don't repeat them)
   const updateApps = () => {
     const hyprClients = hyprland
       .get_clients()
@@ -56,7 +55,6 @@ export function Dock(monitor: Gdk.Monitor) {
       )
       .filter((client) => client !== undefined);
 
-    // clients.sort((a, b) => a.get_name().localeCompare(b.get_name()));
     list.set(clients.filter((client) => client !== undefined));
   };
 
