@@ -1,4 +1,4 @@
-import { Widget } from "astal/gtk3";
+import { App, Gdk, Widget } from "astal/gtk3";
 
 export const getClassList = (wdgt: any): string[] => {
   return wdgt.get_class_name().split(" ");
@@ -34,4 +34,17 @@ export const addClassIf = (
   }
 
   wdgt.set_class_name(classlist.join(" "));
+};
+
+export const getPrimaryMonitor = (): Gdk.Monitor => {
+  const display = Gdk.Display.get_default();
+
+  let primaryMonitor: Gdk.Monitor | null | undefined;
+  if (!Boolean((primaryMonitor = display?.get_primary_monitor()))) {
+    // return the first monitor if there's no primary monitor
+    // acquired by the system.
+    return App.get_monitors()[0]!;
+  }
+
+  return primaryMonitor!;
 };

@@ -1,0 +1,32 @@
+@use "colors.scss";
+
+window.Bar {
+    background: transparent;
+    color: colors.$foreground;
+    font-weight: 500;
+    font-family: Inter;
+
+    .workspaces {
+        .workspace-item {
+            padding: 1px 2rem;
+            background: transparent;
+            transition: all ease 0.2s;
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+
+            &.occupied {
+                background: colors.$ws-occupied;
+                padding: 1px 6rem;
+            }
+
+            &.active {
+                background: colors.$ws-accent;
+                padding: 1px 10rem;
+            }
+
+            &:hover {
+                background: colors.$ws-hovered;
+            }
+        }
+    }
+}
