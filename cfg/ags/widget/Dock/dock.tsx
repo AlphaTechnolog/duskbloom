@@ -60,6 +60,7 @@ function Dock(monitor: Gdk.Monitor) {
           className="apps-dock-container"
           vertical={false}
           spacing={DOCK_SPACING}
+          visible={list((apps) => apps.length > 0)}
         >
           {list((apps) => apps.map((app) => <Application app={app} />))}
         </box>
