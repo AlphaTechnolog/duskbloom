@@ -9,19 +9,20 @@ export function Application({ app }: { app: Apps.Application }) {
 
   const hyprClient = bind(hyprland, "clients").as((clients) => {
     return clients.find((client) => {
-      const wmClass = client.get_class();
+      const wmClass = client.get_class().toLowerCase();
       return (
-        app.get_entry() === wmClass + ".desktop" ||
-        app.get_wm_class() === wmClass
+        app.get_entry().toLowerCase() === wmClass + ".desktop" ||
+        app.get_wm_class()?.toLowerCase() === wmClass
       );
     });
   });
 
   const focusedClient = bind(hyprland, "focusedClient").as((client) => {
     if (!Boolean(client)) return false;
-    const wmClass = client.get_class();
+    const wmClass = client.get_class().toLowerCase();
     return (
-      app.get_entry() === wmClass + ".desktop" || app.get_wm_class() === wmClass
+      app.get_entry().toLowerCase() === wmClass + ".desktop" ||
+      app.get_wm_class()?.toLowerCase() === wmClass
     );
   });
 

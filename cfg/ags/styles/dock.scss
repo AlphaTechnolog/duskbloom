@@ -13,6 +13,15 @@
         border: solid 1px
             color.adjust($color: colors.$background, $lightness: 12%);
 
+        .dock-actions-container .dashboard-action {
+            padding: 0.25em 0.45em;
+
+            .settings-icon {
+                font-size: 2.75em;
+                color: colors.$foreground;
+            }
+        }
+
         .appButton {
             transition: all ease 0.2s;
             border-radius: 7px;

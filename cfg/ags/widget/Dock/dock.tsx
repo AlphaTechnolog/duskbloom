@@ -5,7 +5,9 @@ import { Variable } from "astal";
 import AstalApps from "gi://AstalApps";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
+import { DOCK_SPACING } from "./globals";
 import { Application } from "./application";
+import { DockActions } from "./actions";
 
 function Dock(monitor: Gdk.Monitor) {
   const apps = new AstalApps.Apps();
@@ -24,8 +26,9 @@ function Dock(monitor: Gdk.Monitor) {
       .map((wmclass) =>
         appslist.find((element) => {
           return (
-            element.get_entry() === wmclass + ".desktop" ||
-            element.get_wm_class() === wmclass
+            element.get_entry().toLowerCase() ===
+              wmclass.toLowerCase() + ".desktop" ||
+            element.get_wm_class()?.toLowerCase() === wmclass.toLowerCase()
           );
         }),
       )
@@ -51,7 +54,8 @@ function Dock(monitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.BOTTOM}
       application={App}
     >
-      <box className="container" vertical={false} spacing={4}>
+      <box className="container" vertical={false} spacing={DOCK_SPACING}>
+        {/* <DockActions /> */}
         {list((apps) => apps.map((app) => <Application app={app} />))}
       </box>
     </window>
