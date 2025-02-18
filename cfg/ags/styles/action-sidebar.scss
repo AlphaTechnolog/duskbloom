@@ -1,0 +1,76 @@
+@use "sass:color";
+@use "colors.scss";
+
+.ActionSidebar {
+    $window-radius: 12px;
+
+    $border-color: color.adjust(
+        $color: colors.$background,
+        $lightness: 12%,
+    );
+
+    .container {
+        background-color: colors.$background;
+        border-top-right-radius: $window-radius;
+        border-bottom-right-radius: $window-radius;
+        padding: 10px;
+        border: solid 1px $border-color;
+
+        .eyecandy-hour-container {
+            margin-top: 10px;
+
+            label {
+                font-size: 4rem;
+            }
+
+            .separator-container box {
+                padding: 7px;
+                border-radius: 100px;
+
+                @mixin gen-gradient-step($child, $lightness) {
+                    &:nth-child(#{$child}) {
+                        background-color: color.adjust(
+                            $color: colors.$accent,
+                            $lightness: $lightness
+                        );
+                    }
+                }
+
+                // go from 0% to -20% passing through 10% intensity
+                @for $i from 0 through 2 {
+                    $lightness: -($i * 10%);
+                    @include gen-gradient-step(
+                        $child: $i + 1,
+                        $lightness: $lightness
+                    );
+                }
+            }
+        }
+
+        .eyecandy-weekdays-container .weekday-item {
+            padding: 8px 10px;
+
+            $soft-active-color: rgba(colors.$accent, 0.1);
+
+            label.label-header {
+                color: colors.$accent;
+                font-weight: 600;
+                font-size: 18px;
+            }
+
+            label.day-value {
+                color: colors.$hovered;
+                font-size: 16px;
+            }
+
+            &.active {
+                background-color: $soft-active-color;
+                border-radius: 7px;
+
+                label.day-value {
+                    color: colors.$foreground;
+                }
+            }
+        }
+    }
+}

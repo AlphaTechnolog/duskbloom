@@ -1,4 +1,5 @@
 import { exec, readFile, writeFile } from "astal";
+import { existsDir, existsFile } from "../utils";
 
 export enum MonitorDisplay {
   ALL = "all",
@@ -10,6 +11,8 @@ export interface ConfigSchema {
     showOnMonitor: MonitorDisplay;
   };
 }
+
+const DEBUG = false;
 
 const DEFAULT_CONFIG: ConfigSchema = {
   panel: {
@@ -70,28 +73,16 @@ export class Config {
     return config;
   }
 
-  private existsDir(path: string): boolean {
-    return (
-      exec(["bash", "-c", `test -d ${path} && echo yes || echo no`]) === "yes"
-    );
-  }
-
-  private existsFile(path: string): boolean {
-    return (
-      exec(["bash", "-c", `test -f ${path} && echo yes || echo no`]) === "yes"
-    );
-  }
-
   private writeDefaultContent(): void {
     const conf: string = JSON.stringify(DEFAULT_CONFIG, null, 2);
     writeFile(this._conffilepath, conf);
-    console.log("wrote", conf);
+    if (DEBUG) console.log("[config] wrote", conf);
   }
 
   private _initialBootstrap() {
-    const existsConfDir = this.existsDir(this._confdirpath);
+    const existsConfDir = existsDir(this._confdirpath);
     if (!existsConfDir) exec(["mkdir", "-p", this._confdirpath]);
-    const existsConfFile = this.existsFile(this._conffilepath);
+    const existsConfFile = existsFile(this._conffilepath);
     if (!existsConfFile) exec(["touch", this._conffilepath]);
 
     if (this._parsedContent === undefined) {

@@ -1,9 +1,10 @@
+import { App } from "astal/gtk3";
 import { iconPath } from "../../utils";
 import { DOCK_SPACING } from "./globals";
 
 function DashboardAction() {
   const handleClick = () => {
-    console.log("dashboard");
+    App.toggle_window("ActionSidebar");
   };
 
   return (

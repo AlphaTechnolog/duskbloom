@@ -56,3 +56,15 @@ export const iconPath = (name: string): string => {
   const confDir = [home, ".config", "ags"].join("/");
   return [confDir, "icons", name + ".svg"].join("/");
 };
+
+export const existsDir = (dirname: string): boolean => {
+  return (
+    exec(["bash", "-c", `test -d ${dirname} && echo yes || echo no`]) === "yes"
+  );
+};
+
+export const existsFile = (filename: string): boolean => {
+  return (
+    exec(["bash", "-c", `test -f ${filename} && echo yes || echo no`]) === "yes"
+  );
+};

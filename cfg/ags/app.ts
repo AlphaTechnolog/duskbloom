@@ -3,11 +3,13 @@ import style from "./style.scss";
 import { Config, MonitorDisplay } from "./services";
 
 import { renderBar, renderDock } from "./widget";
+import { renderActionSidebar } from "./widget/ActionSidebar";
 
 App.start({
   css: style,
   main() {
     renderBar();
     renderDock();
+    renderActionSidebar();
   },
 });
