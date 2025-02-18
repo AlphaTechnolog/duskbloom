@@ -6,15 +6,16 @@
 
     $border-color: color.adjust(
         $color: colors.$background,
-        $lightness: 12%,
+        $lightness: 20%,
     );
 
     .container {
         background-color: colors.$background;
         border-top-right-radius: $window-radius;
         border-bottom-right-radius: $window-radius;
-        padding: 10px;
+        padding-top: 10px;
         border: solid 1px $border-color;
+        border-left: none;
 
         .eyecandy-hour-container {
             margin-top: 10px;
@@ -36,14 +37,17 @@
                     }
                 }
 
-                // go from 0% to -20% passing through 10% intensity
-                @for $i from 0 through 2 {
-                    $lightness: -($i * 10%);
-                    @include gen-gradient-step(
-                        $child: $i + 1,
-                        $lightness: $lightness
-                    );
-                }
+                @include gen-gradient-step($child: 1, $lightness: 0%);
+                @include gen-gradient-step($child: 2, $lightness: -10%);
+
+                // This is an example that will work for when we have more than two elements
+                // @for $i from 0 through 3 {
+                //     $lightness: -($i * 10%);
+                //     @include gen-gradient-step(
+                //         $child: $i + 1,
+                //         $lightness: $lightness
+                //     );
+                // }
             }
         }
 
@@ -69,6 +73,39 @@
 
                 label.day-value {
                     color: colors.$foreground;
+                }
+            }
+        }
+
+        // bottom part section, contains notifications and also power buttons
+        .bottom-container {
+            $base-bg: color.adjust(
+                $color: $border-color,
+                $lightness: -15%,
+            );
+            $light-bg: color.adjust(
+                $color: $base-bg,
+                $lightness: 5%,
+            );
+            $content-padding: 12px;
+
+            .notifications-panel {
+                background-color: $base-bg;
+                border-top-left-radius: $window-radius;
+                border-top-right-radius: $window-radius;
+                padding: $content-padding;
+            }
+
+            .footer-container {
+                background-color: $base-bg;
+                border-bottom-right-radius: $window-radius;
+
+                .sidebar-footer {
+                    background-color: $light-bg;
+                    border-bottom-right-radius: $window-radius;
+                    border-top-right-radius: $window-radius;
+                    border-top-left-radius: $window-radius;
+                    padding: $content-padding;
                 }
             }
         }

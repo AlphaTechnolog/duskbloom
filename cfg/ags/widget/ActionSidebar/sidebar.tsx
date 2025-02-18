@@ -1,4 +1,4 @@
-import { App, Astal, Gdk } from "astal/gtk3";
+import { App, Astal, Gdk, Gtk } from "astal/gtk3";
 import { getPrimaryMonitor } from "../../utils";
 
 import { DEBUG_MODE } from "./globals";
@@ -17,9 +17,21 @@ function ActionSidebar(monitor: Gdk.Monitor) {
       heightRequest={monitor.geometry.height - 50}
       visible={DEBUG_MODE} // only visible by default if in debug mode, else user should toggle it.
     >
-      <box className="container" vertical spacing={18}>
-        <EyecandyHour />
-        <EyecandyWeekdays />
+      <box className="container" homogeneous vertical>
+        <box vertical spacing={18}>
+          <EyecandyHour />
+          <EyecandyWeekdays />
+        </box>
+        <box className="bottom-container" valign={Gtk.Align.END} vertical>
+          <box className="notifications-panel">
+            <label>hello world</label>
+          </box>
+          <box className="footer-container" valign={Gtk.Align.END}>
+            <box className="sidebar-footer" expand>
+              <label>hello world</label>
+            </box>
+          </box>
+        </box>
       </box>
     </window>
   );
