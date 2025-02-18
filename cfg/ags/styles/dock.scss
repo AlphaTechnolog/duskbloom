@@ -4,8 +4,11 @@
 .Dock {
     .container {
         background-color: colors.$background;
+        border: solid 1px
+            color.adjust($color: colors.$background, $lightness: 12%);
+        border-bottom: none;
         color: colors.$foreground;
-        padding: 7px;
+        padding: 7px 7px 4px 7px;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         transition: all ease 0.2s;
@@ -13,7 +16,7 @@
         .appButton {
             transition: all ease 0.2s;
             border-radius: 7px;
-            padding: 0.25em;
+            padding: 0.25em 0.45em;
 
             &:hover {
                 background-color: color.adjust(
