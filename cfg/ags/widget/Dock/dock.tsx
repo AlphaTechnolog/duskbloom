@@ -54,9 +54,15 @@ function Dock(monitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.BOTTOM}
       application={App}
     >
-      <box className="container" vertical={false} spacing={DOCK_SPACING}>
-        {/* <DockActions /> */}
-        {list((apps) => apps.map((app) => <Application app={app} />))}
+      <box className="transparent-container" spacing={DOCK_SPACING}>
+        <DockActions />
+        <box
+          className="apps-dock-container"
+          vertical={false}
+          spacing={DOCK_SPACING}
+        >
+          {list((apps) => apps.map((app) => <Application app={app} />))}
+        </box>
       </box>
     </window>
   );

@@ -1,3 +1,4 @@
+import { iconPath } from "../../utils";
 import { DOCK_SPACING } from "./globals";
 
 function DashboardAction() {
@@ -7,17 +8,14 @@ function DashboardAction() {
 
   return (
     <button onClicked={handleClick} className="dashboard-action">
-      <icon
-        icon="/home/alpha/.config/ags/icons/sliders.svg"
-        className="settings-icon"
-      />
+      <icon icon={iconPath("droplet")} className="settings-icon" />
     </button>
   );
 }
 
 export function DockActions() {
   return (
-    <box spacing={DOCK_SPACING} className="dock-actions-container">
+    <box spacing={DOCK_SPACING} className="actions-dock-container">
       <DashboardAction />
     </box>
   );

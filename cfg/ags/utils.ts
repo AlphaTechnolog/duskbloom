@@ -1,3 +1,4 @@
+import { exec } from "astal";
 import { App, Gdk } from "astal/gtk3";
 
 export const getClassList = (wdgt: any): string[] => {
@@ -47,4 +48,11 @@ export const getPrimaryMonitor = (): Gdk.Monitor => {
   }
 
   return primaryMonitor!;
+};
+
+// TODO: Figure out a better way to obtain the config path.
+export const iconPath = (name: string): string => {
+  const home = exec(["bash", "-c", "echo $HOME"]);
+  const confDir = [home, ".config", "ags"].join("/");
+  return [confDir, "icons", name + ".svg"].join("/");
 };

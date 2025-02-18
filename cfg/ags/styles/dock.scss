@@ -2,7 +2,49 @@
 @use "colors.scss";
 
 .Dock {
-    .container {
+    $win-border-color: color.adjust(
+        $color: colors.$background,
+        $lightness: 12%,
+    );
+    $hover-button-color: color.adjust(
+        $color: colors.$background,
+        $lightness: 5%,
+    );
+
+    button {
+        transition: all ease 0.2s;
+        padding: 0.25em 0.45em;
+        border-radius: 7px;
+
+        &:hover {
+            background-color: $hover-button-color;
+        }
+
+        icon {
+            font-size: 2.75em;
+        }
+    }
+
+    .actions-dock-container {
+        background-color: colors.$background;
+        color: colors.$foreground;
+        padding: 7px;
+        border-radius: 12px;
+        transition: all ease 0.2s;
+        margin-bottom: 6px;
+        border: solid 1px $win-border-color;
+
+        // tweak again with these values to match sizes of icons
+        // on the main dock with indicator on bottom of them.
+        button {
+            padding: 0.25em 0.5em;
+            icon {
+                font-size: 2.5em;
+            }
+        }
+    }
+
+    .apps-dock-container {
         background-color: colors.$background;
         color: colors.$foreground;
         padding: 7px;
@@ -10,44 +52,17 @@
         transition: all ease 0.2s;
         margin-bottom: 6px;
 
-        border: solid 1px
-            color.adjust($color: colors.$background, $lightness: 12%);
+        border: solid 1px $win-border-color;
 
-        .dock-actions-container .dashboard-action {
-            padding: 0.25em 0.45em;
-
-            .settings-icon {
-                font-size: 2.75em;
-                color: colors.$foreground;
-            }
-        }
-
-        .appButton {
+        .appButton .indicator {
+            background-color: colors.$accent;
+            padding: 1px 10px;
             transition: all ease 0.2s;
-            border-radius: 7px;
-            padding: 0.25em 0.45em;
+            border-radius: 100px;
 
-            &:hover {
-                background-color: color.adjust(
-                    $color: colors.$background,
-                    $lightness: 5%
-                );
-            }
-
-            icon {
-                font-size: 2.75em;
-            }
-
-            .indicator {
-                background-color: colors.$accent;
-                padding: 1px 10px;
-                transition: all ease 0.2s;
-                border-radius: 100px;
-
-                &.hide {
-                    background-color: colors.$hovered;
-                    padding: 1px 2px;
-                }
+            &.hide {
+                background-color: colors.$hovered;
+                padding: 1px 2px;
             }
         }
     }
