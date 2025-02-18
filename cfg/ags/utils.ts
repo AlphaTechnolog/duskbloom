@@ -1,4 +1,5 @@
 import { App, Gdk, Widget } from "astal/gtk3";
+import Hyprland from "gi://AstalHyprland";
 
 export const getClassList = (wdgt: any): string[] => {
   return wdgt.get_class_name().split(" ");

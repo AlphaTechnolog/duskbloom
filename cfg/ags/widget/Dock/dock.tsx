@@ -1,51 +1,13 @@
-import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
-import { getPrimaryMonitor, toggleClass } from "../../utils";
-import { bind, Variable } from "astal";
+import { App, Astal, Gdk } from "astal/gtk3";
+import { getPrimaryMonitor } from "../../utils";
+import { Variable } from "astal";
 
 import AstalApps from "gi://AstalApps";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
-function Application({ app }: { app: AstalApps.Application }) {
-  const hyprland = AstalHyprland.get_default();
+import { Application } from "./application";
 
-  const hyprClient = bind(hyprland, "clients").as((clients) => {
-    return clients.find((client) => {
-      const wmClass = client.get_class();
-      return (
-        app.get_entry() === wmClass + ".desktop" ||
-        app.get_wm_class() === wmClass
-      );
-    });
-  });
-
-  const focusedClient = bind(hyprland, "focusedClient").as((client) => {
-    if (!Boolean(client)) return false;
-    const wmClass = client.get_class();
-    return (
-      app.get_entry() === wmClass + ".desktop" || app.get_wm_class() === wmClass
-    );
-  });
-
-  const handleClick = () => {
-    hyprClient.get()?.focus();
-  };
-
-  return (
-    <button className="appButton" onClicked={handleClick}>
-      <box vertical expand spacing={4}>
-        <icon icon={app.iconName} />
-        <box
-          halign={Gtk.Align.CENTER}
-          className={focusedClient.as((show) =>
-            ["indicator", !show ? "hide" : ""].join(" "),
-          )}
-        />
-      </box>
-    </button>
-  );
-}
-
-export function Dock(monitor: Gdk.Monitor) {
+function Dock(monitor: Gdk.Monitor) {
   const apps = new AstalApps.Apps();
   const list = Variable<AstalApps.Application[]>([]);
   const hyprland = AstalHyprland.get_default();
@@ -69,7 +31,7 @@ export function Dock(monitor: Gdk.Monitor) {
       )
       .filter((client) => client !== undefined);
 
-    list.set(clients.filter((client) => client !== undefined));
+    list.set(clients);
   };
 
   updateApps();
@@ -89,7 +51,7 @@ export function Dock(monitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.BOTTOM}
       application={App}
     >
-      <box className="container" vertical={false} spacing={7}>
+      <box className="container" vertical={false} spacing={4}>
         {list((apps) => apps.map((app) => <Application app={app} />))}
       </box>
     </window>
