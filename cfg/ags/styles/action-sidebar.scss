@@ -1,10 +1,11 @@
+@use "utils.scss";
 @use "sass:color";
 @use "colors.scss";
 
 .ActionSidebar {
     $window-radius: 12px;
 
-    $border-color: color.adjust(
+    $border-color: utils.lighten(
         $color: colors.$background,
         $lightness: 20%,
     );
@@ -14,8 +15,14 @@
         border-top-right-radius: $window-radius;
         border-bottom-right-radius: $window-radius;
         padding-top: 10px;
-        border: solid 1px $border-color;
-        border-left: none;
+
+        @include utils.common-shadow;
+        margin-left: 0px;
+
+        @if colors.$light-mode == false {
+            border: solid 1px $border-color;
+            border-left: none;
+        }
 
         .eyecandy-hour-container {
             margin-top: 10px;
@@ -30,7 +37,7 @@
 
                 @mixin gen-gradient-step($child, $lightness) {
                     &:nth-child(#{$child}) {
-                        background-color: color.adjust(
+                        background-color: utils.lighten(
                             $color: colors.$accent,
                             $lightness: $lightness
                         );
@@ -63,8 +70,11 @@
             }
 
             label.day-value {
-                color: colors.$hovered;
                 font-size: 16px;
+                color: utils.lighten(
+                    $color: colors.$background,
+                    $lightness: 15%
+                );
             }
 
             &.active {
@@ -79,21 +89,67 @@
 
         // bottom part section, contains notifications and also power buttons
         .bottom-container {
-            $base-bg: color.adjust(
+            $base-bg: utils.lighten(
                 $color: $border-color,
                 $lightness: -15%,
             );
-            $light-bg: color.adjust(
+
+            $light-bg: utils.lighten(
                 $color: $base-bg,
                 $lightness: 5%,
             );
+
             $content-padding: 12px;
 
-            .notifications-panel {
+            .github-notifs-panel {
                 background-color: $base-bg;
                 border-top-left-radius: $window-radius;
                 border-top-right-radius: $window-radius;
                 padding: $content-padding;
+
+                .header {
+                    .icon {
+                        font-size: 1.95em;
+                    }
+
+                    .title {
+                        font-size: 1.8em;
+                    }
+
+                    .help {
+                        padding: 6px 8px;
+                        font-size: 1.2em;
+                        border-radius: 7px;
+                        transition: all ease 0.2s;
+
+                        background-color: $light-bg;
+
+                        &:hover {
+                            background-color: utils.lighten(
+                                $color: $light-bg,
+                                $lightness: 5%
+                            );
+                        }
+                    }
+                }
+
+                .not-configured-container {
+                    $content-color: utils.lighten(
+                        $color: colors.$background,
+                        $lightness: 20%,
+                    );
+
+                    label.github-icon {
+                        font-size: 6.25em;
+                        color: $content-color;
+                    }
+
+                    label {
+                        font-size: 1.25em;
+                        font-weight: bold;
+                        color: $content-color;
+                    }
+                }
             }
 
             .footer-container {
@@ -106,6 +162,34 @@
                     border-top-right-radius: $window-radius;
                     border-top-left-radius: $window-radius;
                     padding: $content-padding;
+
+                    .profile-photo {
+                        border-radius: 100px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: cover;
+                    }
+
+                    .power-dispatcher {
+                        padding: 6px;
+                        font-size: 1.15em;
+                        border-radius: 7px;
+                        transition: all ease 0.2s;
+
+                        $button-base-bg: utils.lighten(
+                            $color: $light-bg,
+                            $lightness: 5%,
+                        );
+
+                        background-color: $button-base-bg;
+
+                        &:hover {
+                            background-color: utils.lighten(
+                                $color: $button-base-bg,
+                                $lightness: 5%
+                            );
+                        }
+                    }
                 }
             }
         }

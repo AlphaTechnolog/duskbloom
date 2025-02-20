@@ -1,6 +1,6 @@
 import { Gdk, Astal, App } from "astal/gtk3";
 import { Workspaces } from "./";
-import { Config, MonitorDisplay } from "../../services";
+import { ConfigService, MonitorDisplay } from "../../services";
 import { getPrimaryMonitor } from "../../utils";
 
 export function Bar(gdkmonitor: Gdk.Monitor) {
@@ -25,7 +25,7 @@ export function Bar(gdkmonitor: Gdk.Monitor) {
 /// Renders the bar in the appropiate monitor depending in what the user
 /// has set on their configuration, either it's in every monitor or the primary one.
 export function renderBar() {
-  const config = Config.instance.getConfig();
+  const config = ConfigService.instance.getConfig();
   const showInAll = config.panel.showOnMonitor === MonitorDisplay.ALL;
 
   if (showInAll) {

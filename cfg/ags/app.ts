@@ -1,6 +1,6 @@
 import { App, Gdk } from "astal/gtk3";
 import style from "./style.scss";
-import { Config, MonitorDisplay } from "./services";
+import { ConfigService, MonitorDisplay } from "./services";
 
 import { renderBar, renderDock } from "./widget";
 import { renderActionSidebar } from "./widget/ActionSidebar";

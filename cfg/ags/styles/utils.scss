@@ -1,0 +1,15 @@
+@use "sass:color";
+@use "colors.scss";
+
+@function lighten($color, $lightness) {
+    @if colors.$light-mode == true {
+        @return color.adjust($color: $color, $lightness: $lightness * -1);
+    }
+
+    @return color.adjust($color: $color, $lightness: $lightness);
+}
+
+@mixin common-shadow {
+    margin: 5px 10px 15px 0px;
+    box-shadow: 0px 3px 5px 1px rgba(#000000, 0.3);
+}

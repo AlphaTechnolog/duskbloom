@@ -7,6 +7,9 @@ export enum MonitorDisplay {
 }
 
 export interface ConfigSchema {
+  palette: {
+    darkMode: boolean;
+  };
   panel: {
     showOnMonitor: MonitorDisplay;
   };
@@ -15,25 +18,28 @@ export interface ConfigSchema {
 const DEBUG = false;
 
 const DEFAULT_CONFIG: ConfigSchema = {
+  palette: {
+    darkMode: true,
+  },
   panel: {
     showOnMonitor: MonitorDisplay.ALL,
   },
 };
 
-export class Config {
-  private static _instance: Config | undefined = undefined;
+export class ConfigService {
+  private static _instance: ConfigService | undefined = undefined;
 
   constructor(
     private _configDir = "duskbloom",
     private _configFile = "config.json",
   ) {}
 
-  public static get instance(): Config {
-    if (Config._instance === undefined) {
-      return (Config._instance = new Config());
+  public static get instance(): ConfigService {
+    if (ConfigService._instance === undefined) {
+      return (ConfigService._instance = new ConfigService());
     }
 
-    return Config._instance;
+    return ConfigService._instance;
   }
 
   private get _userHome(): string {

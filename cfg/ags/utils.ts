@@ -1,5 +1,6 @@
 import { exec } from "astal";
 import { App, Gdk } from "astal/gtk3";
+import { ConfigService } from "./services";
 
 export const getClassList = (wdgt: any): string[] => {
   return wdgt.get_class_name().split(" ");
@@ -50,11 +51,22 @@ export const getPrimaryMonitor = (): Gdk.Monitor => {
   return primaryMonitor!;
 };
 
+export const getEnv = (envvar: string): string => {
+  return exec(["bash", "-c", `echo $${envvar}`]);
+};
+
+export const getHome = (): string => getEnv("HOME");
+
 // TODO: Figure out a better way to obtain the config path.
 export const iconPath = (name: string): string => {
-  const home = exec(["bash", "-c", "echo $HOME"]);
-  const confDir = [home, ".config", "ags"].join("/");
-  return [confDir, "icons", name + ".svg"].join("/");
+  const confDir = [getHome(), ".config", "ags"].join("/");
+  const path = [confDir, "icons"];
+  if (ConfigService.instance.getConfig().palette.darkMode) {
+    path.push("dark");
+  } else {
+    path.push("light");
+  }
+  return [...path, `${name}.svg`].join("/");
 };
 
 export const existsDir = (dirname: string): boolean => {
@@ -67,4 +79,8 @@ export const existsFile = (filename: string): boolean => {
   return (
     exec(["bash", "-c", `test -f ${filename} && echo yes || echo no`]) === "yes"
   );
+};
+
+export const capitalize = (text: string): string => {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };

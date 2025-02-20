@@ -1,12 +1,13 @@
-@use "sass:color";
+@use "utils.scss";
 @use "colors.scss";
 
 .Dock {
-    $win-border-color: color.adjust(
+    $win-border-color: utils.lighten(
         $color: colors.$background,
         $lightness: 12%,
     );
-    $hover-button-color: color.adjust(
+
+    $hover-button-color: utils.lighten(
         $color: colors.$background,
         $lightness: 5%,
     );
@@ -25,19 +26,33 @@
         }
     }
 
+    @mixin common-window {
+        @if colors.$light-mode == false {
+            border: solid 1px $win-border-color;
+        }
+
+        @include utils.common-shadow();
+
+        margin-top: 9px;
+    }
+
     .actions-dock-container {
         background-color: colors.$background;
         color: colors.$foreground;
         padding: 7px;
         border-radius: 12px;
         transition: all ease 0.2s;
-        margin-bottom: 6px;
-        border: solid 1px $win-border-color;
+
+        @include common-window();
+
+        // fix shadow horizontally
+        margin-left: 10px;
 
         // tweak again with these values to match sizes of icons
         // on the main dock with indicator on bottom of them.
         button {
             padding: 0.45em 0.5em;
+
             icon {
                 font-size: 2.5em;
             }
@@ -50,9 +65,11 @@
         padding: 7px;
         border-radius: 12px;
         transition: all ease 0.2s;
-        margin-bottom: 6px;
 
-        border: solid 1px $win-border-color;
+        @include common-window();
+
+        // fix shadow horizontally
+        margin-right: 10px;
 
         .appButton .indicator {
             background-color: colors.$accent;
@@ -61,8 +78,11 @@
             border-radius: 100px;
 
             &.hide {
-                background-color: colors.$hovered;
                 padding: 1px 2px;
+                background-color: utils.lighten(
+                    $color: colors.$background,
+                    $lightness: 15%
+                );
             }
         }
     }

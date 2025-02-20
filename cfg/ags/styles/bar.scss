@@ -1,4 +1,5 @@
 @use "colors.scss";
+@use "utils.scss";
 
 window.Bar {
     background: transparent;
@@ -15,8 +16,8 @@ window.Bar {
             border-bottom-right-radius: 7px;
 
             &.occupied {
-                background: colors.$ws-occupied;
                 padding: 1px 6rem;
+                background-color: colors.$ws-occupied;
             }
 
             &.active {

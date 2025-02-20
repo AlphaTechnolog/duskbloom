@@ -1,11 +1,35 @@
-$background: #0d0e0f;
-$foreground: #b6beca;
+@use "sass:color";
 
-$accent: #8ba4b0;
-$secondary: #8ea4a2;
-$hovered: #545454;
+$light-mode: true;
+
+@function for-theme($light, $dark) {
+    @if $light-mode == true {
+        @return $light;
+    } @else {
+        @return $dark;
+    }
+
+    @return $dark;
+}
+
+$background: #f4ecec;
+$foreground: #101419;
+
+$accent: #bb8787;
+$secondary: #7272ca;
 
 // workspaces
-$ws-accent: $accent;
-$ws-occupied: $hovered;
-$ws-hovered: $ws-accent;
+$ws-hovered: $secondary;
+
+$ws-accent: for-theme(
+    $light: $background,
+    $dark: $accent,
+);
+
+$ws-occupied: for-theme(
+    $light: $accent,
+    $dark: color.adjust(
+            $color: $background,
+            $lightness: 15%,
+        ),
+);

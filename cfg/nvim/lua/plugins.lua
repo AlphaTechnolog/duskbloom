@@ -35,19 +35,19 @@ return {
       "rebelot/kanagawa.nvim",
       priority = 1000,
       lazy = false,
-      enabled = true,
+      enabled = false,
       config = function ()
          local kanagawa = require("kanagawa")
 
          ---@diagnostic disable-next-line: missing-fields
          kanagawa.setup {
             transparent = true,
-            theme = "dragon",
+            theme = "lotus",
             commentStyle = { italic = true },
             keywordStyle = { italic = true },
          }
 
-         kanagawa.load "dragon"
+         kanagawa.load "lotus"
 
          vim.cmd "highlight! SignColumn guibg=NONE"
          vim.cmd "highlight! LineNr guibg=NONE"
