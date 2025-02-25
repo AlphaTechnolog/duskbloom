@@ -5,6 +5,7 @@ import { DEBUG_MODE } from "./globals";
 import { EyecandyHour, EyecandyWeekdays } from "./deco";
 import { PowerButtons } from "./powerbuttons";
 import { GithubNotifsPanel } from "./github-notifs-panel";
+import { MusicControl } from "./music";
 
 function ActionSidebar(monitor: Gdk.Monitor) {
   return (
@@ -23,6 +24,7 @@ function ActionSidebar(monitor: Gdk.Monitor) {
         <box vertical spacing={18} vexpand>
           <EyecandyHour />
           <EyecandyWeekdays />
+          <MusicControl />
         </box>
         <box
           className="bottom-container"

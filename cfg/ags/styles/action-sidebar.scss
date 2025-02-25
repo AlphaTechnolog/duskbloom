@@ -44,17 +44,13 @@
                     }
                 }
 
-                @include gen-gradient-step($child: 1, $lightness: 0%);
-                @include gen-gradient-step($child: 2, $lightness: -10%);
-
-                // This is an example that will work for when we have more than two elements
-                // @for $i from 0 through 3 {
-                //     $lightness: -($i * 10%);
-                //     @include gen-gradient-step(
-                //         $child: $i + 1,
-                //         $lightness: $lightness
-                //     );
-                // }
+                @for $i from 0 through 3 {
+                    $lightness: -($i * 10%);
+                    @include gen-gradient-step(
+                        $child: $i + 1,
+                        $lightness: $lightness
+                    );
+                }
             }
         }
 
@@ -83,6 +79,66 @@
 
                 label.day-value {
                     color: colors.$foreground;
+                }
+            }
+        }
+
+        .music-control-container {
+            $radius: 7px;
+
+            @function with-contrast($base) {
+                $light-base: 5%;
+                @return utils.lighten($color: $base, $lightness: $light-base);
+            }
+
+            $base-bg: with-contrast(
+                $base: colors.$background,
+            );
+            $lightened-bg: with-contrast(
+                $base: $base-bg,
+            );
+
+            margin: 0px 1em;
+            border-radius: $radius;
+            background-color: $lightened-bg;
+
+            .card-container {
+                background-color: $base-bg;
+                border-radius: $radius;
+            }
+
+            .volume-control-container {
+                background-color: $lightened-bg;
+                border-top-right-radius: $radius;
+                border-bottom-right-radius: $radius;
+                padding: 1em;
+
+                * {
+                    all: unset;
+                }
+
+                scale {
+                    $slider-radius: $radius;
+                    $slider-color: $base-bg;
+
+                    trough {
+                        background-color: $slider-color;
+                        border-radius: $slider-radius;
+                    }
+
+                    highlight {
+                        background-color: colors.$accent;
+                        min-height: 0.4em;
+                        border-radius: $slider-radius;
+                    }
+
+                    slider {
+                        background-color: $slider-color;
+                        min-width: 1em;
+                        min-height: 1em;
+                        margin: -0.2em;
+                        border-radius: $slider-radius;
+                    }
                 }
             }
         }
