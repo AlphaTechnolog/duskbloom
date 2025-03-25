@@ -3,17 +3,14 @@ local awful = require("awful")
 local oop = require("framework.oop")
 local panel_config = Configuration.UserLikes:get_key("panel")
 local wm_config = Configuration.UserLikes:get_key("wm")
-local utils = require("framework.utils")()
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
--- local Taglist = require("ui.panel.modules.taglist")
 local Tasklist = require("ui.panel.modules.tasklist")
--- local Statusbar = require("ui.panel.modules.statusbar")
+local Layoutbox = require("ui.panel.modules.layoutbox")
 
 local _window = {}
 
-local CORNER_RADIUS = 12
 local HEIGHT = 45
 
 function _window:constructor(s)
@@ -34,7 +31,12 @@ function _window:get_gaps()
   elseif type(gaps) == "number" then
     gaps = dpi(gaps)
   else
-    error("Invalid gaps value on the user configuration of type " .. type(gaps) .. ": " .. gaps)
+    error(
+      "Invalid gaps value on the user configuration of type "
+        .. type(gaps)
+        .. ": "
+        .. gaps
+    )
   end
 
   -- lets cache it.
@@ -81,7 +83,6 @@ function _window:make_window()
     widget = wibox.widget({
       widget = wibox.container.background,
       bg = beautiful.colors.background,
-      shape = utils:srounded(dpi(CORNER_RADIUS)),
       {
         layout = wibox.layout.flex.horizontal,
         {
@@ -90,29 +91,22 @@ function _window:make_window()
           {
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(4),
-            {
-              widget = wibox.widget.textbox,
-              markup = 'hello',
-            },
-            {
-              widget = wibox.widget.textbox,
-              markup = 'hello',
-            }
-          }
+            -- TODO
+          },
         },
         {
           widget = wibox.container.place,
-          valign = 'center',
-          halign = 'center',
+          valign = "center",
+          halign = "center",
           {
             layout = wibox.layout.fixed.horizontal,
             spacing = dpi(7),
             Tasklist(self.s):render(),
-          }
+          },
         },
         {
           widget = wibox.container.place,
-          halign = 'right',
+          halign = "right",
           hexpand = true,
           {
             widget = wibox.container.margin,
@@ -120,18 +114,11 @@ function _window:make_window()
             {
               layout = wibox.layout.fixed.horizontal,
               spacing = dpi(4),
-              {
-                widget = wibox.widget.textbox,
-                markup = 'hello',
-              },
-              {
-                widget = wibox.widget.textbox,
-                markup = 'hello',
-              }
-            }
-          }
+              Layoutbox(self.s):render(),
+            },
+          },
         },
-      }
+      },
     }),
   })
 

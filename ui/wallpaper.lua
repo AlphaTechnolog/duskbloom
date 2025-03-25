@@ -8,13 +8,14 @@ local dpi = beautiful.xresources.apply_dpi
 
 -- TODO: Add support to solid background color only and tile wallpaper
 Screen.connect_signal("request::wallpaper", function(s)
-  local shape = wallpaper.disable_borders and utils:srounded(0) or utils:prounded(
-    wallpaper.rounded_corners.roundness,
-    wallpaper.rounded_corners.top_left,
-    wallpaper.rounded_corners.top_right,
-    wallpaper.rounded_corners.bottom_right,
-    wallpaper.rounded_corners.bottom_left
-  )
+  local shape = wallpaper.disable_borders and utils:srounded(0)
+    or utils:prounded(
+      wallpaper.rounded_corners.roundness,
+      wallpaper.rounded_corners.top_left,
+      wallpaper.rounded_corners.top_right,
+      wallpaper.rounded_corners.bottom_right,
+      wallpaper.rounded_corners.bottom_left
+    )
 
   awful.wallpaper({
     screen = s,
