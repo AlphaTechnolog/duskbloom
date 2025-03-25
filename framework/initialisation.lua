@@ -12,7 +12,7 @@ local Initialisation = {}
 
 function Initialisation:setup_garbage_collector_timer()
   capi.collectgarbage("setpause", 110)
-  capi.collectgarbage("setstepmul", 1000)
+  capi.collectgarbage("setstepmul", 2 * capi.collectgarbage("setstepmul", 42))
 
   gtimer({
     timeout = 5,
