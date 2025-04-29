@@ -1,6 +1,4 @@
-#!/usr/bin/env nix
-#! nix shell nixpkgs#bash nixpkgs#stylua --command bash
-
+#!/usr/bin/env bash
 root=$(realpath $(dirname $0))/../
 
 echo $root | xargs \

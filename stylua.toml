@@ -1,5 +1,5 @@
 quote_style = "AutoPreferDouble"
 call_parentheses = "Always"
-indent_type = "Spaces"
-indent_width = 2
+indent_type = "Tabs"
+indent_width = 3
 column_width = 80

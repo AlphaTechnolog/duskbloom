@@ -1,7 +1,7 @@
 return {
-  Project = {
-    name = "fancy",
-    id = "fancy",
-    description = "A fancy shell for AwesomeWM",
-  },
+	Project = {
+		name = "fancy",
+		id = "fancy",
+		description = "A fancy shell for AwesomeWM",
+	},
 }
