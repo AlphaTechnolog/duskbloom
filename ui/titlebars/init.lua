@@ -79,14 +79,14 @@ Client.connect_signal("request::titlebars", function(c)
 	end
 
 	local titlebar = awful.titlebar(c, {
-		position = "left",
-		size = dpi(36),
+		position = "top",
+		size = dpi(34),
 		bg = beautiful.colors.transparent,
 	})
 
 	local buttons_layout = wibox.widget({
-		layout = wibox.layout.fixed.vertical,
-		spacing = dpi(5),
+		layout = wibox.layout.fixed.horizontal,
+		spacing = dpi(7),
 		halign = "center",
 		valign = "center",
 	})
@@ -122,22 +122,21 @@ Client.connect_signal("request::titlebars", function(c)
 
 		set_color = function(self, new_color)
 			self.bg = new_color
-
 			self.border.bg = utils:color_adaptive_shade(new_color, 5)
 		end,
 
 		{
-			layout = wibox.layout.align.horizontal,
+			layout = wibox.layout.align.vertical,
 			nil,
 			{
 				widget = wibox.container.margin,
-				top = dpi(10),
+				left = dpi(12),
 				buttons_layout,
 			},
 			{
 				id = "border",
 				widget = wibox.container.background,
-				forced_width = 1,
+				forced_height = 1,
 			},
 		},
 	})
