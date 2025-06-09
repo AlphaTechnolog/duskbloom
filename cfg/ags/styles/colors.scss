@@ -1,6 +1,6 @@
 @use "sass:color";
 
-$light-mode: true;
+$light-mode: false;
 
 @function for-theme($light, $dark) {
     @if $light-mode == true {
@@ -12,14 +12,14 @@ $light-mode: true;
     @return $dark;
 }
 
-$background: #f4ecec;
-$foreground: #101419;
+$background: #0c0c0c;
+$foreground: #999993;
 
-$accent: #bb8787;
-$secondary: #7272ca;
+$accent: #53a6a6;
+$secondary: #9e9ecb;
 
 // workspaces
-$ws-hovered: $secondary;
+$ws-hovered: #3d3d3d;
 
 $ws-accent: for-theme(
     $light: $background,
@@ -29,7 +29,7 @@ $ws-accent: for-theme(
 $ws-occupied: for-theme(
     $light: $accent,
     $dark: color.adjust(
-            $color: $background,
-            $lightness: 15%,
-        ),
+        $color: $background,
+        $lightness: 15%,
+    ),
 );

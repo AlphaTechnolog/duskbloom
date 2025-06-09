@@ -5,7 +5,7 @@ import { Variable } from "astal";
 import AstalApps from "gi://AstalApps";
 import AstalHyprland from "gi://AstalHyprland?version=0.1";
 
-import { DOCK_SPACING } from "./globals";
+import { DOCK_SPACING, DOCK_WINDOW_SPACING } from "./globals";
 import { Application } from "./application";
 import { DockActions } from "./actions";
 
@@ -54,7 +54,7 @@ function Dock(monitor: Gdk.Monitor) {
       anchor={Astal.WindowAnchor.BOTTOM}
       application={App}
     >
-      <box className="transparent-container" spacing={DOCK_SPACING}>
+      <box className="transparent-container" spacing={DOCK_WINDOW_SPACING}>
         <DockActions />
         <box
           className="apps-dock-container"
