@@ -8,6 +8,7 @@ local gtimer = require("gears.timer")
 
 local modkey = Configuration.UserLikes:get_key("modkey")
 local terminal = Configuration.UserLikes:get_key("terminal")
+local explorer = Configuration.UserLikes:get_key("explorer")
 local launcher = Configuration.UserLikes:get_key("launcher")
 
 awful.mouse.append_global_mousebindings({
@@ -31,6 +32,9 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "Return", function()
 		awful.spawn("bash -c '" .. terminal .. "'")
 	end, { description = "open a terminal", group = "launcher" }),
+   awful.key({ modkey }, "e", function ()
+      awful.spawn.with_shell(explorer)
+   end, { description = "open a explorer", group = "launcher" }),
 	awful.key({ modkey }, "c", function()
 		if
 			Client.focus
