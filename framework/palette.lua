@@ -35,6 +35,8 @@ function _palette:generate_shades(scheme, base_palette)
 		::continue::
 	end
 
+   ret.transparent = ret.background .. '00'
+
 	return ret
 end
 

@@ -27,7 +27,6 @@ local DEFAULT_USER_LIKES = {
 		gaps = dpi(6),
 	},
 	panel = {
-		floating = true,
 		gaps = "inherit",
 	},
 	theme = {

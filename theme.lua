@@ -40,13 +40,13 @@ end
 -- |_|\___/_||_\__/__/
 
 theme.fonts = {
-	normal = "Roboto ",
-	icons = "Material Symbols Rounded ",
-	nerdfonts = "Iosevka Nerd Font ",
+	normal = "Inter",
+	icons = "Material Symbols Rounded",
+	nerdfonts = "Iosevka Nerd Font",
 }
 
 function theme.fonts:choose(family, size)
-	return self[family] .. tostring(size)
+	return self[family] .. " " .. tostring(size)
 end
 
 theme.font = theme.fonts:choose("normal", 9)
