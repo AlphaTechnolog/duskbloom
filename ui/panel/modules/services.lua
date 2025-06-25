@@ -1,4 +1,6 @@
 local wibox = require("wibox")
+local ascreen = require("awful.screen")
+local abutton = require("awful.button")
 local utils = require("framework.utils")()
 local oop = require("framework.oop")
 local hoverable = require("ui.guards.hoverable")
@@ -65,6 +67,14 @@ function _services:render()
    container:connect_signal("animation:hex-change", function (self, newcolor)
       self.separator.bg = color.lighten(newcolor, 12)
    end)
+
+   container:add_button(abutton({}, 1, function ()
+      local s = ascreen.focused()
+      if not s then return end
+      local cc = s.control_center
+      if not cc then return end
+      cc:toggle()
+   end))
 
    return container
 end

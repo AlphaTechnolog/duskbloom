@@ -33,7 +33,7 @@ local DEFAULT_USER_LIKES = {
 		scheme = THEME_SCHEME.Dark,
 		accents = {
 			primary = "blue",
-			secondary = "red",
+			secondary = "cyan",
 		},
 		colors = {
 			background = "#0f0f0f",

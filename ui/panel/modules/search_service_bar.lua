@@ -1,4 +1,5 @@
 local wibox = require("wibox")
+local awful = require("awful")
 local hoverable = require("ui.guards.hoverable")
 local utils = require("framework.utils")()
 local oop = require("framework.oop")
@@ -46,6 +47,10 @@ function SearchServiceBar:render()
 			hovered = beautiful.colors.light_background_12,
 		},
 	})
+
+   container:add_button(awful.button({}, 1, function ()
+      require("naughty").notify({ title = 'todo' })
+   end))
 
 	return container
 end

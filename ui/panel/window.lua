@@ -18,6 +18,7 @@ local HEIGHT = 45
 function _window:constructor(s)
    self.s = s
    self.gaps = nil
+   self.initial_height = HEIGHT
    self:make_window()
 end
 
