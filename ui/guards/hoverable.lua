@@ -12,8 +12,8 @@ return function(widget)
 				opts.colors.normal or beautiful.colors.background
 			),
 			update = function(_, pos)
-            local hex = color.rgba_to_hex(pos)
-            widget:emit_signal("animation:hex-change", hex)
+				local hex = color.rgba_to_hex(pos)
+				widget:emit_signal("animation:hex-change", hex)
 				widget.bg = hex
 			end,
 		})

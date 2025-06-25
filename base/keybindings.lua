@@ -32,9 +32,9 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "Return", function()
 		awful.spawn("bash -c '" .. terminal .. "'")
 	end, { description = "open a terminal", group = "launcher" }),
-   awful.key({ modkey }, "e", function ()
-      awful.spawn.with_shell(explorer)
-   end, { description = "open a explorer", group = "launcher" }),
+	awful.key({ modkey }, "e", function()
+		awful.spawn.with_shell(explorer)
+	end, { description = "open a explorer", group = "launcher" }),
 	awful.key({ modkey }, "c", function()
 		if
 			Client.focus

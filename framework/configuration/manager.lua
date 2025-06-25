@@ -14,7 +14,7 @@ local DEFAULT_CACHED_ICONS = {
 
 local THEME_SCHEME = {
 	Dark = "dark",
-	Light = "light"
+	Light = "light",
 }
 
 local DEFAULT_USER_LIKES = {
@@ -102,9 +102,13 @@ end
 
 local function json_encode(val)
 	local encoded = json.encode(val)
-	local jq_available = io.popen("bash -c 'command -v jq 2>&1 || true'"):read("*all") ~= ""
+	local jq_available = io.popen("bash -c 'command -v jq 2>&1 || true'")
+		:read("*all") ~= ""
 	if jq_available then
-		local command = string.format('echo "%s" | jq -r | cat', string.gsub(encoded, '"', '\\"'))
+		local command = string.format(
+			'echo "%s" | jq -r | cat',
+			string.gsub(encoded, '"', '\\"')
+		)
 		command = string.format("bash -c '%s'", command)
 		return io.popen(command):read("*all")
 	end

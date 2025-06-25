@@ -48,9 +48,9 @@ function SearchServiceBar:render()
 		},
 	})
 
-   container:add_button(awful.button({}, 1, function ()
-      require("naughty").notify({ title = 'todo' })
-   end))
+	container:add_button(awful.button({}, 1, function()
+		require("naughty").notify({ title = "todo" })
+	end))
 
 	return container
 end
