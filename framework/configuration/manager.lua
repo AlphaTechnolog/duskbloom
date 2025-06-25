@@ -1,5 +1,5 @@
 local json = require("extern.json.json")
-local gfs = require("gears.filesystem")
+local autil = require("awful.util")
 local Meta = require("meta")
 local oop = require("framework.oop")
 local Fs = require("framework.fs-simple")
@@ -12,8 +12,13 @@ local DEFAULT_CACHED_ICONS = {
 	icons = {},
 }
 
+local THEME_SCHEME = {
+	Dark = "dark",
+	Light = "light"
+}
+
 local DEFAULT_USER_LIKES = {
-	navigator = "google-chrome",
+	navigator = "firefox",
 	terminal = "alacritty",
 	explorer = "thunar",
 	launcher = "rofi -show drun",
@@ -26,23 +31,23 @@ local DEFAULT_USER_LIKES = {
 		gaps = "inherit",
 	},
 	theme = {
-		scheme = "light",
+		scheme = THEME_SCHEME.Dark,
 		accents = {
 			primary = "blue",
 			secondary = "red",
 		},
 		colors = {
-			background = "#e6dfdc",
-			foreground = "#695d57",
-			black = "#c7c0bd",
-			hovered_black = "#a09996",
-			red = "#b28069",
-			green = "#6c805c",
-			yellow = "#a9a29f",
-			blue = "#5f7d9b",
-			magenta = "#a685a6",
-			cyan = "#75998e",
-			white = "#695d57",
+			background = "#0f0f0f",
+			foreground = "#f0f0f0",
+			black = "#141414",
+			hovered_black = "#282828",
+			red = "#ac8a8c",
+			green = "#8aac8b",
+			yellow = "#aca98a",
+			blue = "#8f8aac",
+			magenta = "#ac8aac",
+			cyan = "#8aabac",
+			white = "#e7e7e7",
 		},
 	},
 	wallpaper = {
@@ -96,9 +101,21 @@ function _manager:constructor(_)
 	self:make_parsing_functions_shortcuts()
 end
 
+local function json_encode(val)
+	local encoded = json.encode(val)
+	local jq_available = io.popen("bash -c 'command -v jq 2>&1 || true'"):read("*all") ~= ""
+	if jq_available then
+		local command = string.format('echo "%s" | jq -r | cat', string.gsub(encoded, '"', '\\"'))
+		command = string.format("bash -c '%s'", command)
+		return io.popen(command):read("*all")
+	end
+
+	return encoded
+end
+
 -- TODO: Figure out a way to prettify the json
 function _manager:write_into(filename, content_table)
-	local content = json.encode(content_table)
+	local content = json_encode(content_table)
 	local file = io.open(filename, "w")
 
 	if not file then

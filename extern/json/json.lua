@@ -222,8 +222,8 @@ local function parse_string(str, i)
       local c = str:sub(j, j)
       if c == "u" then
         local hex = str:match("^[dD][89aAbB]%x%x\\u%x%x%x%x", j + 1)
-          or str:match("^%x%x%x%x", j + 1)
-          or decode_error(str, j - 1, "invalid unicode escape in string")
+            or str:match("^%x%x%x%x", j + 1)
+            or decode_error(str, j - 1, "invalid unicode escape in string")
         res = res .. parse_unicode_escape(hex)
         j = j + #hex
       else
