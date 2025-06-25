@@ -115,7 +115,7 @@ function _window:make_window()
                   hexpand = true,
                   {
                      widget = wibox.container.margin,
-                     right = dpi(12),
+                     right = dpi(7),
                      {
                         layout = wibox.layout.fixed.horizontal,
                         spacing = dpi(4),
