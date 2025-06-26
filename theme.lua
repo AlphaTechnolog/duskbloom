@@ -38,7 +38,7 @@ end
 -- |_|\___/_||_\__/__/
 
 theme.fonts = {
-   normal = 'Inter',
+   normal = 'Rubik',
    icons = 'Material Symbols Rounded',
    nerdfonts = 'Iosevka Nerd Font',
 }
