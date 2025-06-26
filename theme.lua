@@ -7,6 +7,7 @@
 local xresources = require('beautiful.xresources')
 local gfs = require('gears.filesystem')
 local gcolor = require('gears.color')
+local gshape = require('gears.shape')
 local color = require('framework.color')
 local palette = require('framework.palette')()
 local dpi = xresources.apply_dpi
@@ -131,5 +132,9 @@ theme.layout_cornernw = gcolor.recolor_image(themes_path .. 'default/layouts/cor
 theme.layout_cornerne = gcolor.recolor_image(themes_path .. 'default/layouts/cornernew.png', theme.colors.foreground)
 theme.layout_cornersw = gcolor.recolor_image(themes_path .. 'default/layouts/cornersww.png', theme.colors.foreground)
 theme.layout_cornerse = gcolor.recolor_image(themes_path .. 'default/layouts/cornersew.png', theme.colors.foreground)
+
+-- layoutlist
+theme.layoutlist_shape_selected = gshape.squircle
+theme.layoutlist_bg_selected = theme.colors.black
 
 return theme
