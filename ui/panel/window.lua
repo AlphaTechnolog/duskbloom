@@ -2,7 +2,6 @@ local wibox = require('wibox')
 local awful = require('awful')
 local oop = require('framework.oop')
 local utils = require('framework.utils')()
-local panel_config = Configuration.UserLikes:get_key('panel')
 local wm_config = Configuration.UserLikes:get_key('wm')
 local beautiful = require('beautiful')
 local dpi = beautiful.xresources.apply_dpi
@@ -22,30 +21,8 @@ function _window:constructor(s)
    self:make_window()
 end
 
-function _window:get_gaps()
-   if self.gaps ~= nil then
-      return self.gaps
-   end
-
-   local gaps = panel_config.gaps or 'inherit'
-   if gaps == 'inherit' then
-      gaps = dpi(wm_config.gaps)
-   elseif type(gaps) == 'number' then
-      gaps = dpi(gaps)
-   else
-      error('Invalid gaps value on the user configuration of type ' .. type(gaps) .. ': ' .. gaps)
-   end
-
-   -- lets cache it.
-   self.gaps = gaps
-
-   return gaps
-end
-
 function _window:get_panel_position()
    local height = dpi(HEIGHT)
-   local gaps = self:get_gaps()
-
    local margin_offset = dpi(220)
    local width = self.s.geometry.width - margin_offset
    local x = self.s.geometry.x + ((self.s.geometry.width - width) / 2)
@@ -62,7 +39,6 @@ end
 
 function _window:make_window()
    local position = self:get_panel_position()
-   local gaps = self.gaps or error('unreachable')
 
    self.popup = awful.popup({
       type = 'dock',
@@ -123,9 +99,7 @@ function _window:make_window()
       }),
    })
 
-   self.popup:struts({
-      bottom = self.is_floating and position.height + gaps * 2 or position.height,
-   })
+   self.popup:struts({ bottom = position.height })
 end
 
 function _window:raise()

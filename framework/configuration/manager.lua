@@ -26,9 +26,6 @@ local DEFAULT_USER_LIKES = {
    wm = {
       gaps = dpi(6),
    },
-   panel = {
-      gaps = 'inherit',
-   },
    theme = {
       scheme = THEME_SCHEME.Dark,
       accents = {
