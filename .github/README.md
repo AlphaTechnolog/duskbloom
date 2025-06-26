@@ -107,7 +107,7 @@ sudo systemctl enable --now bluetooth
 
 Now you have to install some fonts.
 
-- [Roboto](https://fonts.google.com/specimen/Roboto)
+- [Rubik](https://fonts.google.com/specimen/Rubik)
 - [Material Symbols](https://downgit.evecalm.com/#/home?url=https://github.com/google/material-design-icons/tree/1ea21d5429750938f4a8e694e75a54fc0f02dae1/variablefont)
 
 > Note that material symbols has a [specifically tested commit](https://github.com/google/material-design-icons/tree/eaf90d6b1d40c25a388cbb30fbb5466197570bf4/variablefont), which is the one i use, keep in mind that updating it may end with awesomewm displaying weird symbols. Download the variablefont folder contents and put the ttf files on ~/.local/share/fonts
