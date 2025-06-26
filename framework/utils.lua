@@ -3,6 +3,7 @@ local awful = require('awful')
 local gshape = require('gears.shape')
 local oop = require('framework.oop')
 local color = require('framework.color')
+local json = require('extern.json.json')
 local beautiful = require('beautiful')
 local dpi = beautiful.xresources.apply_dpi
 
@@ -38,6 +39,10 @@ function _utils:xmargins(t, b, l, r)
       left = dpi(l),
       right = dpi(r),
    }
+end
+
+function _utils:axis_margins(v, h)
+   return self:xmargins(v, v, h, h)
 end
 
 function _utils:map(tbl, iterator, cb)
@@ -197,6 +202,29 @@ function _utils:scrollable(text)
       speed = 60,
       text,
    })
+end
+
+-- useful for debugging and development.
+function _utils:todo()
+   require('naughty').notify({ title = 'todo' })
+end
+
+function _utils:for_scheme(d, l)
+   local theme_config = Configuration.UserLikes:get_key("theme")
+   local scheme = theme_config.scheme
+   return scheme == 'dark' and d or l
+end
+
+function _utils:pretty_json_encode(val)
+   local encoded = json.encode(val)
+   local jq_available = io.popen("bash -c 'command -v jq 2>&1 || true'"):read('*all') ~= ''
+   if jq_available then
+      local command = string.format('echo "%s" | jq -r | cat', string.gsub(encoded, '"', '\\"'))
+      command = string.format("bash -c '%s'", command)
+      return io.popen(command):read('*all')
+   end
+
+   return encoded
 end
 
 return oop(_utils)

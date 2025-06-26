@@ -192,4 +192,12 @@ function _color.darken(color, amount)
    return _color.lighten(color, -amount)
 end
 
+-- makes a light shade by taking in mind the colorscheme scheme
+function _color.shade(color, amount)
+   local theme = Configuration.UserLikes:get_key("theme")
+   local scheme = theme.scheme or "light"
+   local shader = _color[scheme == 'dark' and 'lighten' or 'darken']
+   return shader(color, amount)
+end
+
 return _color

@@ -38,8 +38,8 @@ local DEFAULT_USER_LIKES = {
       colors = {
          background = '#0f0f0f',
          foreground = '#f0f0f0',
-         black = '#141414',
-         hovered_black = '#282828',
+         black = '#181818',
+         hovered_black = '#262626',
          red = '#ac8a8c',
          green = '#8aac8b',
          yellow = '#aca98a',
@@ -97,21 +97,8 @@ function _manager:constructor(_)
    self:make_parsing_functions_shortcuts()
 end
 
-local function json_encode(val)
-   local encoded = json.encode(val)
-   local jq_available = io.popen("bash -c 'command -v jq 2>&1 || true'"):read('*all') ~= ''
-   if jq_available then
-      local command = string.format('echo "%s" | jq -r | cat', string.gsub(encoded, '"', '\\"'))
-      command = string.format("bash -c '%s'", command)
-      return io.popen(command):read('*all')
-   end
-
-   return encoded
-end
-
--- TODO: Figure out a way to prettify the json
 function _manager:write_into(filename, content_table)
-   local content = json_encode(content_table)
+   local content = utils:pretty_json_encode(content_table)
    local file = io.open(filename, 'w')
 
    if not file then

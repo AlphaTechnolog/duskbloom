@@ -46,7 +46,7 @@ function _window:get_panel_position()
    local height = dpi(HEIGHT)
    local gaps = self:get_gaps()
 
-   local margin_offset = dpi(120)
+   local margin_offset = dpi(220)
    local width = self.s.geometry.width - margin_offset
    local x = self.s.geometry.x + ((self.s.geometry.width - width) / 2)
 
@@ -114,7 +114,7 @@ function _window:make_window()
                      {
                         layout = wibox.layout.fixed.horizontal,
                         spacing = dpi(4),
-                        Services():render(),
+                        Services(self.s):render(),
                      },
                   },
                },

@@ -8,7 +8,9 @@ local dpi = beautiful.xresources.apply_dpi
 
 local _window = {}
 
-local WIDTH = dpi(340)
+local Content = require("ui.control_center.modules")
+
+local WIDTH = dpi(380)
 local HEIGHT = dpi(460)
 
 local States = {
@@ -51,19 +53,19 @@ end
 
 function _window:_make_popup()
    local positions = self:_get_positions()
+   local theme = Configuration.UserLikes:get_key("theme")
+   local scheme = theme.scheme
 
    self.content_container = wibox.widget({
       widget = wibox.container.background,
       bg = beautiful.colors.background,
+      shape = utils:srounded(dpi(12)),
+      border_width = dpi(scheme == 'dark' and 1 or 0),
+      border_color = beautiful.colors.hovered_black,
       {
          widget = wibox.container.margin,
-         margins = dpi(12),
-         {
-            widget = wibox.widget.textbox,
-            markup = 'center',
-            align = 'center',
-            valign = 'center',
-         },
+         margins = utils:axis_margins(12, 14),
+         Content():render(),
       },
    })
 
@@ -101,6 +103,13 @@ function _window:_make_popup()
          ['ended'] = function()
             if self.state == States.HIDDEN then
                self.panel.visible = false
+
+               -- using global signals since we've a circular
+               -- dependency with the panel and the control center
+               -- so the hack is that we use this to communicate
+               -- between when we do not have an asynchronous
+               -- context to use, i do not like these but whatever.
+               Awesome.emit_signal('cc:close')
             end
          end,
       },
@@ -120,6 +129,9 @@ end
 function _window:raise()
    self.panel.visible = true
    self:_set_panel_state(States.SHOWN)
+
+   -- See notice on `cc:close` signal.
+   Awesome.emit_signal('cc:open')
 end
 
 function _window:hide()

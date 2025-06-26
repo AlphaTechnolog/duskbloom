@@ -19,6 +19,10 @@ return function(widget)
       self:subscribe_hover()
    end
 
+   function widget:can_hover(cb)
+      self._can_hover_guard = cb
+   end
+
    function widget:use_color(new_color)
       if not self.animation then
          error('[widget:hoverable] no animation yet, call setup() first')
@@ -29,9 +33,20 @@ return function(widget)
 
    function widget:subscribe_hover()
       self:connect_signal('mouse::enter', function()
+         if self._can_hover_guard ~= nil then
+            if not self._can_hover_guard(self) then
+               return
+            end
+         end
+
          self:use_color(self.opts.colors.hovered)
       end)
       self:connect_signal('mouse::leave', function()
+         if self._can_hover_guard ~= nil then
+            if not self._can_hover_guard(self) then
+               return
+            end
+         end
          self:use_color(self.opts.colors.normal)
       end)
    end
