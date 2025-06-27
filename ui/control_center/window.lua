@@ -77,12 +77,9 @@ function _window:_make_popup()
 		height = HEIGHT,
 		x = positions.x,
 		y = positions.y,
-		shape = utils:srounded(dpi(12)),
-		bg = beautiful.colors.transparent,
-		widget = self.content_container,
 		widget = {
 			widget = wibox.container.background,
-			bg = beautiful.colors.transparent,
+			bg = beautiful.colors.transparent, -- antialiasing.
 			shape = utils:srounded(dpi(12)),
 			self.content_container,
 		},

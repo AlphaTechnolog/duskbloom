@@ -176,15 +176,9 @@ function _container:_create_chip(opts)
 end
 
 function _container:_get_wifi()
-	local Icons = {
-		CONNECTED = "",
-		DISCONNECTED = "",
-		ETHERNET_CONNECTED = "",
-	}
-
 	local wifi = self:_create_chip({
-		really_configurable = true,
-		icon = Icons.CONNECTED,
+		really_configurable = false,
+		icon = beautiful.icons.Wifi.CONNECTED,
 		initial_title = "Network",
 		initial_body = "Connected",
 	})
@@ -194,14 +188,14 @@ function _container:_get_wifi()
 	local function setup_active_ethernet()
 		wifi.with_ethernet = true
 		wifi:switch_state(wifi.States.ACTIVE)
-		wifi:set_icon_markup(Icons.ETHERNET_CONNECTED)
+		wifi:set_icon_markup(beautiful.icons.Wifi.ETHERNET_CONNECTED)
 		wifi:set_title("Ethernet")
 		wifi:set_body("Connected")
 	end
 
 	local function connected(ssid)
 		wifi:switch_state(wifi.States.ACTIVE)
-		wifi:set_icon_markup(Icons.CONNECTED)
+		wifi:set_icon_markup(beautiful.icons.Wifi.CONNECTED)
 		wifi:set_title(ssid ~= nil and ssid or "Wi-Fi")
 		wifi:set_body("Connected")
 	end
@@ -209,7 +203,7 @@ function _container:_get_wifi()
 	local function disconnected()
 		wifi.with_ethernet = false
 		wifi:switch_state(wifi.States.INACTIVE)
-		wifi:set_icon_markup(Icons.DISCONNECTED)
+		wifi:set_icon_markup(beautiful.icons.Wifi.DISCONNECTED)
 		wifi:set_title("Wi-Fi")
 		wifi:set_body("Disconnected")
 	end

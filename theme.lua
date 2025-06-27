@@ -4,6 +4,8 @@
 -- |___|_|_|_| .__/\___/_|    \__/__/
 --                     |_|
 
+-- TODO: Organise this theme file.
+
 local xresources = require("beautiful.xresources")
 local gfs = require("gears.filesystem")
 local gcolor = require("gears.color")
@@ -136,5 +138,14 @@ theme.layout_cornerse = gcolor.recolor_image(themes_path .. "default/layouts/cor
 -- layoutlist
 theme.layoutlist_shape_selected = gshape.squircle
 theme.layoutlist_bg_selected = theme.colors.black
+
+-- icons
+theme.icons = {
+	Wifi = {
+		CONNECTED = "",
+		DISCONNECTED = "",
+		ETHERNET_CONNECTED = "",
+	},
+}
 
 return theme
