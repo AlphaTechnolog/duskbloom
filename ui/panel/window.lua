@@ -40,20 +40,21 @@ end
 function _window:make_window()
 	local position = self:get_panel_position()
 
-	self.popup = awful.popup({
+	self.popup = wibox({
 		type = "dock",
 		visible = false,
-		bg = beautiful.colors.transparent,
-		fg = beautiful.colors.foreground,
+		ontop = true,
 		x = position.x,
 		y = position.y,
-		minimum_width = position.width,
-		maximum_width = position.width,
-		minimum_height = position.height,
-		maximum_height = position.height,
+		width = position.width,
+		height = position.height,
+		bg = beautiful.colors.transparent,
+		fg = beautiful.colors.foreground,
+		shape = utils:prounded(dpi(12), true, true, false, false),
 		widget = wibox.widget({
 			widget = wibox.container.background,
 			bg = beautiful.colors.transparent, -- antialiasing
+			fg = beautiful.colors.foreground,
 			shape = utils:prounded(dpi(12), true, true, false, false),
 			{
 				widget = wibox.container.background,
