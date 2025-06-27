@@ -269,7 +269,7 @@ function _container:_get_airplane()
 		airplane:set_body("Disabled")
 	end
 
-	RadioService:connect_signal("state", function (_, state)
+	RadioService:connect_signal("state", function(_, state)
 		if state then
 			airplane:_turn_on()
 		else
@@ -277,7 +277,7 @@ function _container:_get_airplane()
 		end
 	end)
 
-	airplane:connect_signal("clicked", function ()
+	airplane:connect_signal("clicked", function()
 		RadioService:toggle()
 	end)
 

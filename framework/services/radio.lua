@@ -20,9 +20,9 @@ function _radio:toggle()
 end
 
 function _radio:turn_on()
-    aspawn("rfkill block all", false)
-    self._private.enabled = true
-    self:emit_signal("state", true)
+	aspawn("rfkill block all", false)
+	self._private.enabled = true
+	self:emit_signal("state", true)
 end
 
 function _radio:turn_off()
@@ -38,11 +38,11 @@ local function on_wireless_state_change(self, state)
 end
 
 function _radio:_check_state()
-	NetworkService:connect_signal("wireless_state", function (_, state)
+	NetworkService:connect_signal("wireless_state", function(_, state)
 		on_wireless_state_change(self, state)
 	end)
 
-	gtimer.delayed_call(function ()
+	gtimer.delayed_call(function()
 		-- TODO: Determine default state value from cache.
 		if self._private.enabled then
 			self:turn_on()
