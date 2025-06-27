@@ -19,7 +19,7 @@ local string = string
 local table = table
 local unpack = unpack or table.unpack -- luacheck: globals unpack
 
-local lgi = require "lgi"
+local lgi = require("lgi")
 
 local DBusProxy = lgi.Gio.DBusProxy
 local DBusProxyFlags = lgi.Gio.DBusProxyFlags
@@ -30,9 +30,9 @@ local GVariant = lgi.GLib.Variant
 
 local _DEFAULT_TIMEOUT = -1
 
-local variant = require "framework.dbus_proxy._variant"
+local variant = require("framework.dbus_proxy._variant")
 
-local gdebug = require "gears.debug"
+local gdebug = require("gears.debug")
 
 --[[-- A proxy object
 
@@ -167,18 +167,18 @@ local Proxy = {}
 --
 -- @see build_args
 local function build_params(args)
-  if not args then
-    return nil
-  end
+	if not args then
+		return nil
+	end
 
-  local sig = "("
-  local val = {}
-  for i, v in ipairs(args) do
-    sig = sig .. v.type
-    val[i] = v.value
-  end
-  sig = sig .. ")"
-  return GVariant(sig, val)
+	local sig = "("
+	local val = {}
+	for i, v in ipairs(args) do
+		sig = sig .. v.type
+		val[i] = v.value
+	end
+	sig = sig .. ")"
+	return GVariant(sig, val)
 end
 
 --- Synchronously call a method with arguments from a given interface on a proxy object.
@@ -192,15 +192,15 @@ end
 -- @see build_args
 -- @see generate_method
 local function call(proxy, interface, method, args)
-  local out, err = proxy._proxy:call_sync(interface .. "." .. method, args, DBusCallFlags.NONE, _DEFAULT_TIMEOUT)
-  if not out and err then
-    return out, err
-  end
-  local result = variant.strip(out)
-  if type(result) == "table" and #result == 1 then
-    result = result[1]
-  end
-  return result
+	local out, err = proxy._proxy:call_sync(interface .. "." .. method, args, DBusCallFlags.NONE, _DEFAULT_TIMEOUT)
+	if not out and err then
+		return out, err
+	end
+	local result = variant.strip(out)
+	if type(result) == "table" and #result == 1 then
+		result = result[1]
+	end
+	return result
 end
 
 --- Asynchronously call a method with arguments from a given interface on a proxy object.
@@ -224,21 +224,21 @@ end
 -- @see build_args
 -- @see generate_async_method
 local function call_async(proxy, interface, method, user_callback, context, args)
-  proxy._proxy:call(interface .. "." .. method, args, DBusCallFlags.NONE, _DEFAULT_TIMEOUT, nil, function(_proxy, res)
-    local out, err = _proxy:call_finish(res)
+	proxy._proxy:call(interface .. "." .. method, args, DBusCallFlags.NONE, _DEFAULT_TIMEOUT, nil, function(_proxy, res)
+		local out, err = _proxy:call_finish(res)
 
-    if not out and err then
-      user_callback(proxy, context, out, err)
-      return
-    end
+		if not out and err then
+			user_callback(proxy, context, out, err)
+			return
+		end
 
-    local result = variant.strip(out)
-    if type(result) == "table" and #result == 1 then
-      result = result[1]
-    end
+		local result = variant.strip(out)
+		if type(result) == "table" and #result == 1 then
+			result = result[1]
+		end
 
-    user_callback(proxy, context, result)
-  end)
+		user_callback(proxy, context, result)
+	end)
 end
 
 --- Get a cached property out of a proxy object
@@ -246,8 +246,8 @@ end
 -- @param[type=string] name the name of the property
 -- @return the value of the property
 local function get_property(proxy, name)
-  local out = proxy._proxy:get_cached_property(name)
-  return variant.strip(out)
+	local out = proxy._proxy:get_cached_property(name)
+	return variant.strip(out)
 end
 
 --- Set a cached property of a proxy object
@@ -257,15 +257,15 @@ end
 -- -  `value` the value to be set <br>
 -- -  `signature` the DBus signature as a string
 local function set_property(proxy, name, opts)
-  local variant_value = GVariant(opts.signature, opts.value)
-  proxy._proxy:set_cached_property(name, variant_value)
+	local variant_value = GVariant(opts.signature, opts.value)
+	proxy._proxy:set_cached_property(name, variant_value)
 end
 
 --- Get the XML representation of a proxy object
 -- @param[type=Proxy] proxy a proxy object
 -- @return a string with the XML representation of the object
 local function introspect(proxy)
-  return call(proxy, "org.freedesktop.DBus.Introspectable", "Introspect")
+	return call(proxy, "org.freedesktop.DBus.Introspectable", "Introspect")
 end
 
 --- Build arguments for a method call.
@@ -281,20 +281,20 @@ end
 -- @see generate_method
 -- @see generate_async_method
 local function build_args(method, ...)
-  local args = {}
-  for _, arg in ipairs(method.in_args) do
-    args[#args + 1] = {
-      type = arg.signature,
-    }
-  end
+	local args = {}
+	for _, arg in ipairs(method.in_args) do
+		args[#args + 1] = {
+			type = arg.signature,
+		}
+	end
 
-  assert(#{ ... } == #args, string.format("Expected %d parameters but got %d", #args, #{ ... }))
+	assert(#{ ... } == #args, string.format("Expected %d parameters but got %d", #args, #{ ... }))
 
-  for idx, val in ipairs { ... } do
-    args[idx].value = val
-  end
+	for idx, val in ipairs({ ... }) do
+		args[idx].value = val
+	end
 
-  return build_params(args)
+	return build_params(args)
 end
 
 --- Generate a *synchronous* method.
@@ -306,11 +306,11 @@ end
 -- @see build_args
 -- @see call
 local function generate_method(interface_name, method)
-  return function(proxy, ...)
-    local args = build_args(method, ...)
+	return function(proxy, ...)
+		local args = build_args(method, ...)
 
-    return call(proxy, interface_name, method.name, args)
-  end
+		return call(proxy, interface_name, method.name, args)
+	end
 end
 
 --- Generate an *asynchronous* method.
@@ -322,11 +322,11 @@ end
 -- @see build_args
 -- @see call_async
 local function generate_async_method(interface_name, method)
-  return function(proxy, user_callback, context, ...)
-    local args = build_args(method, ...)
+	return function(proxy, user_callback, context, ...)
+		local args = build_args(method, ...)
 
-    return call_async(proxy, interface_name, method.name, user_callback, context, args)
-  end
+		return call_async(proxy, interface_name, method.name, user_callback, context, args)
+	end
 end
 
 --- Generate the accessor table for a property
@@ -339,29 +339,29 @@ end
 -- @see get_property
 -- @see set_property
 local function generate_accessor(property)
-  local accessor = {}
+	local accessor = {}
 
-  if property.flags.READABLE then
-    accessor.getter = function(proxy)
-      return get_property(proxy, property.name)
-    end
-  else
-    accessor.getter = function()
-      error(string.format("Property '%s' is not readable", property.name))
-    end
-  end
+	if property.flags.READABLE then
+		accessor.getter = function(proxy)
+			return get_property(proxy, property.name)
+		end
+	else
+		accessor.getter = function()
+			error(string.format("Property '%s' is not readable", property.name))
+		end
+	end
 
-  if property.flags.WRITABLE then
-    accessor.setter = function(proxy, opts)
-      set_property(proxy, property.name, opts)
-    end
-  else
-    accessor.setter = function()
-      error(string.format("Property '%s' is not writable", property.name))
-    end
-  end
+	if property.flags.WRITABLE then
+		accessor.setter = function(proxy, opts)
+			set_property(proxy, property.name, opts)
+		end
+	else
+		accessor.setter = function()
+			error(string.format("Property '%s' is not writable", property.name))
+		end
+	end
 
-  return accessor
+	return accessor
 end
 
 --- Generate the fields of a proxy object.
@@ -372,89 +372,89 @@ end
 --
 -- @param[type=Proxy] proxy a proxy object
 local function generate_fields(proxy)
-  local xml_data_str, err = introspect(proxy)
+	local xml_data_str, err = introspect(proxy)
 
-  if not xml_data_str then
-    gdebug.print_warning(
-      string.format(
-        "Failed to introspect object '%s'\nerror: %s\ncode: %s",
-        proxy.name,
-        err or "<unknown>",
-        err.code or "<unknown>"
-      )
-    )
-    -- error(
-    --   string.format(
-    --     "Failed to introspect object '%s'\nerror: %s\ncode: %s",
-    --     proxy.name, err or "<unknown>", err.code or "<unknown>"
-    --   )
-    -- )
-    return
-  end
+	if not xml_data_str then
+		gdebug.print_warning(
+			string.format(
+				"Failed to introspect object '%s'\nerror: %s\ncode: %s",
+				proxy.name,
+				err or "<unknown>",
+				err.code or "<unknown>"
+			)
+		)
+		-- error(
+		--   string.format(
+		--     "Failed to introspect object '%s'\nerror: %s\ncode: %s",
+		--     proxy.name, err or "<unknown>", err.code or "<unknown>"
+		--   )
+		-- )
+		return
+	end
 
-  local node = DBusNodeInfo.new_for_xml(xml_data_str)
+	local node = DBusNodeInfo.new_for_xml(xml_data_str)
 
-  -- NOTE: does not take into account nested nodes.
-  for _, iface in ipairs(node.interfaces) do
-    for _, method in ipairs(iface.methods) do
-      if not proxy[method.name] then
-        proxy[method.name] = generate_method(iface.name, method)
-        proxy[method.name .. "Async"] = generate_async_method(iface.name, method)
-      else
-        -- override only if the interface name is the same as the proxy's
-        if iface.name == proxy.interface then
-          proxy[method.name] = generate_method(iface.name, method)
-          proxy[method.name .. "Async"] = generate_async_method(iface.name, method)
-        end
-      end
-    end
+	-- NOTE: does not take into account nested nodes.
+	for _, iface in ipairs(node.interfaces) do
+		for _, method in ipairs(iface.methods) do
+			if not proxy[method.name] then
+				proxy[method.name] = generate_method(iface.name, method)
+				proxy[method.name .. "Async"] = generate_async_method(iface.name, method)
+			else
+				-- override only if the interface name is the same as the proxy's
+				if iface.name == proxy.interface then
+					proxy[method.name] = generate_method(iface.name, method)
+					proxy[method.name .. "Async"] = generate_async_method(iface.name, method)
+				end
+			end
+		end
 
-    for _, signal in ipairs(iface.signals) do
-      proxy.signals[signal.name] = true
-    end
+		for _, signal in ipairs(iface.signals) do
+			proxy.signals[signal.name] = true
+		end
 
-    for _, property in ipairs(iface.properties) do
-      proxy.accessors[property.name] = generate_accessor(property)
-    end
-  end
+		for _, property in ipairs(iface.properties) do
+			proxy.accessors[property.name] = generate_accessor(property)
+		end
+	end
 
-  for k, _ in pairs(proxy) do
-    if proxy.accessors[k] ~= nil then
-      -- A property with the same name as a method was found, rename it by
-      -- adding an underscore and remove the original, but bail out silently in
-      -- the unlikely case that the name exists too.
-      local new_name = "_" .. k
-      if proxy.accessors[new_name] == nil then
-        proxy.accessors[new_name], proxy.accessors[k] = proxy.accessors[k], nil
-      end
-    end
-  end
+	for k, _ in pairs(proxy) do
+		if proxy.accessors[k] ~= nil then
+			-- A property with the same name as a method was found, rename it by
+			-- adding an underscore and remove the original, but bail out silently in
+			-- the unlikely case that the name exists too.
+			local new_name = "_" .. k
+			if proxy.accessors[new_name] == nil then
+				proxy.accessors[new_name], proxy.accessors[k] = proxy.accessors[k], nil
+			end
+		end
+	end
 end
 
 local meta = {
-  __index = function(tbl, key)
-    if Proxy[key] then
-      return Proxy[key]
-    end
+	__index = function(tbl, key)
+		if Proxy[key] then
+			return Proxy[key]
+		end
 
-    local v = tbl.accessors[key]
+		local v = tbl.accessors[key]
 
-    if v then
-      return v.getter(tbl)
-    end
+		if v then
+			return v.getter(tbl)
+		end
 
-    return rawget(tbl, key)
-  end,
+		return rawget(tbl, key)
+	end,
 
-  __newindex = function(tbl, key, value)
-    local v = tbl.accessors[key]
+	__newindex = function(tbl, key, value)
+		local v = tbl.accessors[key]
 
-    if v then
-      v.setter(tbl, value)
-    else
-      rawset(tbl, key, value)
-    end
-  end,
+		if v then
+			v.setter(tbl, value)
+		else
+			rawset(tbl, key, value)
+		end
+	end,
 }
 
 --[[-- Connect a callback function to a signal.
@@ -481,20 +481,20 @@ proxy:connect_signal(
 )
 ]]
 function Proxy:connect_signal(signal_name, callback, sender_name)
-  if not self.signals[signal_name] then
-    error(string.format("Invalid signal: %s", signal_name))
-  end
+	if not self.signals[signal_name] then
+		error(string.format("Invalid signal: %s", signal_name))
+	end
 
-  self._proxy.on_g_signal = function(_, sender, signal, params)
-    if sender_name ~= nil and sender_name ~= sender then
-      return
-    end
+	self._proxy.on_g_signal = function(_, sender, signal, params)
+		if sender_name ~= nil and sender_name ~= sender then
+			return
+		end
 
-    if signal == signal_name then
-      params = variant.strip(params)
-      return callback(self, unpack(params))
-    end
-  end
+		if signal == signal_name then
+			params = variant.strip(params)
+			return callback(self, unpack(params))
+		end
+	end
 end
 
 --[[-- Call a function when the properties of the proxy object change.
@@ -524,10 +524,10 @@ end)
 
 ]]
 function Proxy:on_properties_changed(callback)
-  self._proxy.on_g_properties_changed = function(_, changed, invalidated)
-    changed = variant.strip(changed)
-    return callback(self, changed, invalidated)
-  end
+	self._proxy.on_g_properties_changed = function(_, changed, invalidated)
+		changed = variant.strip(changed)
+		return callback(self, changed, invalidated)
+	end
 end
 
 --[[-- Create a new proxy object
@@ -547,39 +547,39 @@ The `opts` table should have the following fields:
 
 ]]
 function Proxy:new(opts)
-  local proxy, err = DBusProxy.new_sync(
-    opts.bus,
-    opts.flags or DBusProxyFlags.NONE,
-    DBusInterfaceInfo {
-      name = opts.interface,
-    },
-    opts.name,
-    opts.path,
-    opts.interface
-  )
+	local proxy, err = DBusProxy.new_sync(
+		opts.bus,
+		opts.flags or DBusProxyFlags.NONE,
+		DBusInterfaceInfo({
+			name = opts.interface,
+		}),
+		opts.name,
+		opts.path,
+		opts.interface
+	)
 
-  if err then
-    error(err)
-  end
+	if err then
+		error(err)
+	end
 
-  local o = {}
-  o.accessors = {}
-  o.signals = {}
-  o._proxy = proxy
-  -- g-* properties
-  o.connection = proxy.g_connection
-  o.flags = proxy.g_flags
-  o.interface = proxy.g_interface_name
-  o.name = proxy.g_name
-  o.name_owner = proxy.g_name_owner
-  o.object_path = proxy.g_object_path
+	local o = {}
+	o.accessors = {}
+	o.signals = {}
+	o._proxy = proxy
+	-- g-* properties
+	o.connection = proxy.g_connection
+	o.flags = proxy.g_flags
+	o.interface = proxy.g_interface_name
+	o.name = proxy.g_name
+	o.name_owner = proxy.g_name_owner
+	o.object_path = proxy.g_object_path
 
-  generate_fields(o)
+	generate_fields(o)
 
-  setmetatable(o, meta)
-  self.__index = self
+	setmetatable(o, meta)
+	self.__index = self
 
-  return o
+	return o
 end
 
 return Proxy

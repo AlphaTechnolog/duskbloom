@@ -1,39 +1,39 @@
-local wibox = require('wibox')
-local oop = require('framework.oop')
-local utils = require('framework.utils')()
-local beautiful = require('beautiful')
+local wibox = require("wibox")
+local oop = require("framework.oop")
+local utils = require("framework.utils")()
+local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
-local Header = require('ui.control_center.modules.header')
-local ChipsContainer = require('ui.control_center.modules.chips_container')
-local Footer = require('ui.control_center.modules.footer')
+local Header = require("ui.control_center.modules.header")
+local ChipsContainer = require("ui.control_center.modules.chips_container")
+local Footer = require("ui.control_center.modules.footer")
 
 local _content = {}
 
 function _content:_middle_content()
-   return wibox.widget({
-      widget = wibox.container.margin,
-      margins = utils:axis_margins(8, 0),
-      {
-         widget = wibox.container.background,
-         bg = beautiful.colors.background,
-         vexpand = true,
-         {
-            layout = wibox.layout.fixed.vertical,
-            spacing = dpi(6),
-            ChipsContainer():render()
-         }
-      },
-   })
+	return wibox.widget({
+		widget = wibox.container.margin,
+		margins = utils:axis_margins(8, 0),
+		{
+			widget = wibox.container.background,
+			bg = beautiful.colors.background,
+			vexpand = true,
+			{
+				layout = wibox.layout.fixed.vertical,
+				spacing = dpi(6),
+				ChipsContainer():render(),
+			},
+		},
+	})
 end
 
 function _content:render()
-   return wibox.widget({
-      layout = wibox.layout.align.vertical,
-      Header():render(),
-      self:_middle_content(),
-      Footer():render(),
-   })
+	return wibox.widget({
+		layout = wibox.layout.align.vertical,
+		Header():render(),
+		self:_middle_content(),
+		Footer():render(),
+	})
 end
 
 return oop(_content)

@@ -9,7 +9,7 @@ local gobject = require("gears.object")
 local gtable = require("gears.table")
 local gtimer = require("gears.timer")
 local gdebug = require("gears.debug")
-local utils = require('framework.utils')()
+local utils = require("framework.utils")()
 local dbus_proxy = require("framework.dbus_proxy")
 local ipairs = ipairs
 local string = string
@@ -224,25 +224,28 @@ local function get_access_point_connections(self, ssid)
 end
 
 local function get_ethernet_proxy(self)
-   local devices = self._private.client_proxy:GetDevices()
-   for _, device_path in ipairs(devices) do
-      local device_proxy = dbus_proxy.Proxy:new({
-         bus = dbus_proxy.Bus.SYSTEM,
-         name = 'org.freedesktop.NetworkManager',
-         interface = 'org.freedesktop.NetworkManager.Device',
-         path = device_path,
-      })
+	local devices = self._private.client_proxy:GetDevices()
+	for _, device_path in ipairs(devices) do
+		local device_proxy = dbus_proxy.Proxy:new({
+			bus = dbus_proxy.Bus.SYSTEM,
+			name = "org.freedesktop.NetworkManager",
+			interface = "org.freedesktop.NetworkManager.Device",
+			path = device_path,
+		})
 
-      if device_proxy.DeviceType == network.DeviceType.ETHERNET and device_proxy.State == network.DeviceState.ACTIVATED then
-         self._private.ethernet_proxy = device_proxy
-         self._private.ethernet_proxy:connect_signal('StateChanged', function (_, new_state, old_state, _)
-            if new_state ~= old_state then
-               self:emit_signal('ethernet_state', device_proxy.State == network.DeviceState.ACTIVATED)
-            end
-         end)
-         break
-      end
-   end
+		if
+			device_proxy.DeviceType == network.DeviceType.ETHERNET
+			and device_proxy.State == network.DeviceState.ACTIVATED
+		then
+			self._private.ethernet_proxy = device_proxy
+			self._private.ethernet_proxy:connect_signal("StateChanged", function(_, new_state, old_state, _)
+				if new_state ~= old_state then
+					self:emit_signal("ethernet_state", device_proxy.State == network.DeviceState.ACTIVATED)
+				end
+			end)
+			break
+		end
+	end
 end
 
 local function get_wifi_proxy(self)
@@ -439,11 +442,11 @@ function access_point:toggle(password, auto_connect)
 end
 
 function network:wireless_state()
-   return self._private.client_proxy.WirelessEnabled
+	return self._private.client_proxy.WirelessEnabled
 end
 
 function network:ethernet_state()
-   return self._private.ethernet_proxy.State == network.DeviceState.ACTIVATED
+	return self._private.ethernet_proxy.State == network.DeviceState.ACTIVATED
 end
 
 local function new()
@@ -489,19 +492,19 @@ local function new()
 	end)
 
 	get_wifi_proxy(ret)
-   if not ret._private.wifi_proxy then
-      get_ethernet_proxy(ret)
-   else
-      ret:scan_access_points()
-   end
+	if not ret._private.wifi_proxy then
+		get_ethernet_proxy(ret)
+	else
+		ret:scan_access_points()
+	end
 
 	gtimer.delayed_call(function()
-      if ret._private.ethernet_proxy then
-         ret:emit_signal('ethernet_state', ret:ethernet_state())
-      end
+		if ret._private.ethernet_proxy then
+			ret:emit_signal("ethernet_state", ret:ethernet_state())
+		end
 
 		if ret._private.wifi_proxy then
-         ret:emit_signal("wireless_state", ret:wireless_enabled())
+			ret:emit_signal("wireless_state", ret:wireless_enabled())
 
 			local active_access_point = ret._private.wifi_proxy.ActiveAccessPoint
 			if ret._private.device_proxy.State == network.DeviceState.ACTIVATED and active_access_point ~= "/" then

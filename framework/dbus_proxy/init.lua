@@ -28,8 +28,8 @@ local variant = require(... .. "._variant")
 local monitored = require(... .. "._monitored")
 
 return {
-  Proxy = Proxy,
-  Bus = Bus,
-  variant = variant,
-  monitored = monitored,
+	Proxy = Proxy,
+	Bus = Bus,
+	variant = variant,
+	monitored = monitored,
 }
