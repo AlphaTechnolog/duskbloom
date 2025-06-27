@@ -5,6 +5,7 @@ local beautiful = require('beautiful')
 local dpi = beautiful.xresources.apply_dpi
 
 local Header = require('ui.control_center.modules.header')
+local ChipsContainer = require('ui.control_center.modules.chips_container')
 local Footer = require('ui.control_center.modules.footer')
 
 local _content = {}
@@ -12,7 +13,7 @@ local _content = {}
 function _content:_middle_content()
    return wibox.widget({
       widget = wibox.container.margin,
-      margins = utils:axis_margins(6, 0),
+      margins = utils:axis_margins(8, 0),
       {
          widget = wibox.container.background,
          bg = beautiful.colors.background,
@@ -20,12 +21,7 @@ function _content:_middle_content()
          {
             layout = wibox.layout.fixed.vertical,
             spacing = dpi(6),
-            {
-               widget = wibox.widget.textbox,
-               markup = 'chips',
-               align = 'left',
-               valign = 'center',
-            }
+            ChipsContainer():render()
          }
       },
    })

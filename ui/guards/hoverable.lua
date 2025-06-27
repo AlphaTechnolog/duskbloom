@@ -19,6 +19,14 @@ return function(widget)
       self:subscribe_hover()
    end
 
+   function widget:resetup_hover(opts)
+      local cur_opts = self.opts
+      self.opts = opts
+      if cur_opts.colors.normal ~= self.opts.colors.normal then
+         self:use_color(self.opts.colors.normal)
+      end
+   end
+
    function widget:can_hover(cb)
       self._can_hover_guard = cb
    end

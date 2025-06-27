@@ -227,4 +227,14 @@ function _utils:pretty_json_encode(val)
    return encoded
 end
 
+function _utils:wibox_by_id_getter(id)
+   return function (self)
+      return self:get_children_by_id(id)[1]
+   end
+end
+
+function _utils:trim(string)
+  return string:gsub("^%s*(.-)%s*$", "%1")
+end
+
 return oop(_utils)
