@@ -233,10 +233,10 @@ local function get_ethernet_proxy(self)
 			path = device_path,
 		})
 
-		if
-			device_proxy.DeviceType == network.DeviceType.ETHERNET
-			and device_proxy.State == network.DeviceState.ACTIVATED
-		then
+		local is_ethernet = device_proxy.DeviceType == network.DeviceType.ETHERNET
+		local is_activated = device_proxy.State == network.DeviceState.ACTIVATED
+
+		if is_ethernet and is_activated then
 			self._private.ethernet_proxy = device_proxy
 			self._private.ethernet_proxy:connect_signal("StateChanged", function(_, new_state, old_state, _)
 				if new_state ~= old_state then
