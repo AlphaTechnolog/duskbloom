@@ -1,9 +1,10 @@
 -------------------------------------------
 -- @author https://github.com/Kasper24
+-- modifications by AlphaTechnolog.
+--   - Ethernet support (?)
 -- @copyright 2021-2025 Kasper24
 -------------------------------------------
 local lgi = require("lgi")
-local inspect = require("extern.inspect")
 local awful = require("awful")
 local gobject = require("gears.object")
 local gtable = require("gears.table")

@@ -141,6 +141,7 @@ theme.layoutlist_bg_selected = theme.colors.black
 
 -- icons
 theme.icons = {
+	AIRPLANE = "",
 	Wifi = {
 		CONNECTED = "",
 		DISCONNECTED = "",

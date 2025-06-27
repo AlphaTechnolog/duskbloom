@@ -9,8 +9,6 @@ local inspect = require("extern.inspect")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
-local network = require("framework.services.network")
-
 local _container = {}
 
 function _container:_create_chip(opts)
@@ -176,6 +174,8 @@ function _container:_create_chip(opts)
 end
 
 function _container:_get_wifi()
+	local NetworkService = require("framework.services.network")
+
 	local wifi = self:_create_chip({
 		really_configurable = false,
 		icon = beautiful.icons.Wifi.CONNECTED,
@@ -225,12 +225,12 @@ function _container:_get_wifi()
 	end
 
 	gtimer.delayed_call(function()
-		on_wireless_state_change(nil, network:wireless_state())
-		on_ethernet_change(nil, network:ethernet_state())
-		network:connect_signal("ethernet_state", on_ethernet_change)
-		network:connect_signal("wireless_state", on_wireless_state_change)
-		network:connect_signal("access_point::disconnected", disconnected)
-		network:connect_signal("access_point::connected", function(_, ssid)
+		on_wireless_state_change(nil, NetworkService:wireless_state())
+		on_ethernet_change(nil, NetworkService:ethernet_state())
+		NetworkService:connect_signal("ethernet_state", on_ethernet_change)
+		NetworkService:connect_signal("wireless_state", on_wireless_state_change)
+		NetworkService:connect_signal("access_point::disconnected", disconnected)
+		NetworkService:connect_signal("access_point::connected", function(_, ssid)
 			connected(ssid)
 		end)
 	end)
@@ -243,10 +243,45 @@ function _container:_get_wifi()
 		if self.with_ethernet then
 			return
 		end
-		network:toggle_wireless_state()
+		NetworkService:toggle_wireless_state()
 	end)
 
 	return wifi
+end
+
+function _container:_get_airplane()
+	local RadioService = require("framework.services.radio")
+
+	local airplane = self:_create_chip({
+		really_configurable = false,
+		icon = beautiful.icons.AIRPLANE,
+		initial_title = "Airplane mode",
+		initial_body = "Disabled",
+	})
+
+	function airplane:_turn_on()
+		airplane:switch_state(airplane.States.ACTIVE)
+		airplane:set_body("Enabled")
+	end
+
+	function airplane:_turn_off()
+		airplane:switch_state(airplane.States.INACTIVE)
+		airplane:set_body("Disabled")
+	end
+
+	RadioService:connect_signal("state", function (_, state)
+		if state then
+			airplane:_turn_on()
+		else
+			airplane:_turn_off()
+		end
+	end)
+
+	airplane:connect_signal("clicked", function ()
+		RadioService:toggle()
+	end)
+
+	return airplane
 end
 
 function _container:_get_layout()
@@ -259,11 +294,7 @@ function _container:_get_layout()
 	})
 
 	layout:add(self:_get_wifi())
-	-- layout:add(self:_get_wifi())
-	-- layout:add(self:_get_wifi())
-	-- layout:add(self:_get_wifi())
-	-- layout:add(self:_get_wifi())
-	-- layout:add(self:_get_wifi())
+	layout:add(self:_get_airplane())
 
 	return layout
 end
