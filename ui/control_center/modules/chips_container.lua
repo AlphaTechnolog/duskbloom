@@ -71,7 +71,7 @@ function _container:_create_chip(opts)
 		end,
 		{
 			widget = wibox.container.margin,
-			margins = utils:axis_margins(8, 8, 0, 0),
+			margins = dpi(8),
 			{
 				layout = wibox.layout.align.horizontal,
 				{
