@@ -43,7 +43,7 @@ function _window:make_window()
 	self.popup = wibox({
 		type = "dock",
 		visible = false,
-		ontop = true,
+		ontop = false,
 		x = position.x,
 		y = position.y,
 		width = position.width,
